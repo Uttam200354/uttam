@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivaji Dashboard - IT Asset Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h2>Shivaji Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="#assets" class="nav-link dropdown-toggle">Assets Details</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="showCreateAssets()">Create Assets Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#software" class="nav-link dropdown-toggle">Software License</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="showCreateSoftware()">Create Software License Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#servers" class="nav-link dropdown-toggle">Servers</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="showCreateSAPServer()">SAP Server</a></li>
+                            <li><a href="#" onclick="showCreateNonSAPServer()">Non SAP Server</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#switches" class="nav-link dropdown-toggle">Switches</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="showCreateSwitches()">Create Switches Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#cctv" class="nav-link dropdown-toggle">CCTV</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="showCreateCCTV()">Create CCTV Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#printers" class="nav-link dropdown-toggle">Printers</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="showCreatePrinters()">Create Printer Details</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </div>
+        
+        <div class="main-content">
+            <div id="dashboard-view" class="content-section active">
+                <h1>Shivaji Dashboard</h1>
+                <div class="cards-container">
+                    <div class="card">
+                        <h3>Plant</h3>
+                        <select class="plant-dropdown">
+                            <option value="">Select Plant</option>
+                            <option value="plant1">Plant 1</option>
+                            <option value="plant2">Plant 2</option>
+                            <option value="plant3">Plant 3</option>
+                        </select>
+                    </div>
+                    <div class="card">
+                        <h3>Assets</h3>
+                        <input type="text" placeholder="Search assets..." class="search-input">
+                    </div>
+                    <div class="card">
+                        <h3>Department</h3>
+                        <select class="department-dropdown">
+                            <option value="">Select Department</option>
+                            <option value="it">IT Department</option>
+                            <option value="hr">HR Department</option>
+                            <option value="finance">Finance Department</option>
+                        </select>
+                    </div>
+                    <div class="card">
+                        <h3>Software License</h3>
+                        <input type="text" placeholder="Search software..." class="search-input">
+                    </div>
+                    <div class="card">
+                        <h3>Server Details</h3>
+                        <input type="text" placeholder="Search servers..." class="search-input">
+                    </div>
+                    <div class="card">
+                        <h3>Switches Details</h3>
+                        <input type="text" placeholder="Search switches..." class="search-input">
+                    </div>
+                    <div class="card">
+                        <h3>CCTV</h3>
+                        <input type="text" placeholder="Search CCTV..." class="search-input">
+                    </div>
+                    <div class="card">
+                        <h3>Printers</h3>
+                        <input type="text" placeholder="Search printers..." class="search-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assets Form -->
+            <div id="assets-form" class="content-section">
+                <h2>Create Assets Details</h2>
+                <form id="assetsForm" class="data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sr. Number:</label>
+                            <input type="text" name="srNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Assets Number:</label>
+                            <input type="text" name="assetsNumber" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" name="department" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hostname:</label>
+                            <input type="text" name="hostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Username:</label>
+                            <input type="text" name="username" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Serial Number:</label>
+                            <input type="text" name="serialNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Device:</label>
+                            <input type="text" name="device" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="edit-btn" onclick="editCurrentRecord()">Edit</button>
+                    </div>
+                </form>
+                <div class="search-section">
+                    <input type="text" id="assetsSearch" placeholder="Search assets data..." class="search-box">
+                </div>
+                <div id="assetsTable" class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Assets No</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>Serial No</th>
+                                <th>Device</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assetsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Software License Form -->
+            <div id="software-form" class="content-section">
+                <h2>Create Software License Details</h2>
+                <form id="softwareForm" class="data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sr. Number:</label>
+                            <input type="text" name="srNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Software Key:</label>
+                            <input type="text" name="softwareKey" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" name="department" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hostname:</label>
+                            <input type="text" name="hostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Username:</label>
+                            <input type="text" name="username" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>MS Office:</label>
+                            <input type="text" name="msOffice">
+                        </div>
+                        <div class="form-group">
+                            <label>AutoCAD:</label>
+                            <input type="text" name="autoCAD">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Cero:</label>
+                            <input type="text" name="cero">
+                        </div>
+                        <div class="form-group">
+                            <label>Device:</label>
+                            <input type="text" name="device" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="edit-btn" onclick="editCurrentRecord()">Edit</button>
+                    </div>
+                </form>
+                <div class="search-section">
+                    <input type="text" id="softwareSearch" placeholder="Search software data..." class="search-box">
+                </div>
+                <div id="softwareTable" class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Software Key</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>MS Office</th>
+                                <th>AutoCAD</th>
+                                <th>Cero</th>
+                                <th>Device</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="softwareTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SAP Server Form -->
+            <div id="sap-server-form" class="content-section">
+                <h2>Create SAP Server Details</h2>
+                <form id="sapServerForm" class="data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sr. Number:</label>
+                            <input type="text" name="srNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Server Brand:</label>
+                            <input type="text" name="serverBrand" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Serial Number:</label>
+                            <input type="text" name="serialNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Model Number:</label>
+                            <input type="text" name="modelNumber" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hard Disk:</label>
+                            <input type="text" name="hardDisk" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Total RAM:</label>
+                            <input type="text" name="totalRAM" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total CPU:</label>
+                            <input type="text" name="totalCPU" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="edit-btn" onclick="editCurrentRecord()">Edit</button>
+                    </div>
+                </form>
+                <div class="search-section">
+                    <input type="text" id="sapServerSearch" placeholder="Search SAP server data..." class="search-box">
+                </div>
+                <div id="sapServerTable" class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Server Brand</th>
+                                <th>Serial No</th>
+                                <th>Model No</th>
+                                <th>Hard Disk</th>
+                                <th>Total RAM</th>
+                                <th>Total CPU</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sapServerTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Non-SAP Server Form -->
+            <div id="non-sap-server-form" class="content-section">
+                <h2>Create Non-SAP Server Details</h2>
+                <form id="nonSapServerForm" class="data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sr. Number:</label>
+                            <input type="text" name="srNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Server Brand:</label>
+                            <input type="text" name="serverBrand" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Serial Number:</label>
+                            <input type="text" name="serialNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Model Number:</label>
+                            <input type="text" name="modelNumber" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hard Disk:</label>
+                            <input type="text" name="hardDisk" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Total RAM:</label>
+                            <input type="text" name="totalRAM" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total CPU:</label>
+                            <input type="text" name="totalCPU" required>
+                        </div>
+                        <div class="form-group">
+                            <label>VM:</label>
+                            <input type="text" name="vm" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="edit-btn" onclick="editCurrentRecord()">Edit</button>
+                    </div>
+                </form>
+                <div class="search-section">
+                    <input type="text" id="nonSapServerSearch" placeholder="Search Non-SAP server data..." class="search-box">
+                </div>
+                <div id="nonSapServerTable" class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Server Brand</th>
+                                <th>Serial No</th>
+                                <th>Model No</th>
+                                <th>Hard Disk</th>
+                                <th>Total RAM</th>
+                                <th>Total CPU</th>
+                                <th>VM</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nonSapServerTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Switches Form -->
+            <div id="switches-form" class="content-section">
+                <h2>Create Switches Details</h2>
+                <form id="switchesForm" class="data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sr. Number:</label>
+                            <input type="text" name="srNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Switches ID:</label>
+                            <input type="text" name="switchesId" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" name="department" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hostname:</label>
+                            <input type="text" name="hostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Username:</label>
+                            <input type="text" name="username" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Plant:</label>
+                            <input type="text" name="plant" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Device:</label>
+                            <input type="text" name="device" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="edit-btn" onclick="editCurrentRecord()">Edit</button>
+                    </div>
+                </form>
+                <div class="search-section">
+                    <input type="text" id="switchesSearch" placeholder="Search switches data..." class="search-box">
+                </div>
+                <div id="switchesTable" class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Switches ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>Plant</th>
+                                <th>Device</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="switchesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CCTV Form -->
+            <div id="cctv-form" class="content-section">
+                <h2>Create CCTV Details</h2>
+                <form id="cctvForm" class="data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sr. Number:</label>
+                            <input type="text" name="srNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>CCTV ID:</label>
+                            <input type="text" name="cctvId" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" name="department" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hostname:</label>
+                            <input type="text" name="hostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Username:</label>
+                            <input type="text" name="username" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Plant:</label>
+                            <input type="text" name="plant" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Device:</label>
+                            <input type="text" name="device" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="edit-btn" onclick="editCurrentRecord()">Edit</button>
+                    </div>
+                </form>
+                <div class="search-section">
+                    <input type="text" id="cctvSearch" placeholder="Search CCTV data..." class="search-box">
+                </div>
+                <div id="cctvTable" class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>CCTV ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>Plant</th>
+                                <th>Device</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cctvTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Printers Form -->
+            <div id="printers-form" class="content-section">
+                <h2>Create Printer Details</h2>
+                <form id="printersForm" class="data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sr. Number:</label>
+                            <input type="text" name="srNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Printer ID:</label>
+                            <input type="text" name="printerId" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" name="department" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hostname:</label>
+                            <input type="text" name="hostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Username:</label>
+                            <input type="text" name="username" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Plant:</label>
+                            <input type="text" name="plant" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Device:</label>
+                            <input type="text" name="device" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="edit-btn" onclick="editCurrentRecord()">Edit</button>
+                    </div>
+                </form>
+                <div class="search-section">
+                    <input type="text" id="printersSearch" placeholder="Search printer data..." class="search-box">
+                </div>
+                <div id="printersTable" class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Printer ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>Plant</th>
+                                <th>Device</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="printersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
