@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="40" cy="40" r="35" fill="url(#logoGradient)" opacity="0.1"/>
+  
+  <!-- Main Logo Shape -->
+  <path d="M20 25 L60 25 L50 40 L30 40 Z" fill="url(#logoGradient)"/>
+  <path d="M25 45 L55 45 L60 60 L20 60 Z" fill="url(#logoGradient)" opacity="0.8"/>
+  
+  <!-- ACGL Text -->
+  <text x="90" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="url(#logoGradient)">ACGL</text>
+  <text x="90" y="55" font-family="Arial, sans-serif" font-size="12" fill="#666">Management System</text>
+</svg>
