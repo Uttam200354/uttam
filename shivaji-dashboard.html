@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivaji Dashboard - ACGL Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard active">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ACGL Management</h2>
+                <div class="user-role">User - Shivaji</div>
+            </div>
+            <nav>
+                <ul class="sidebar-menu">
+                    <li><a href="#dashboard" class="menu-link active" data-section="dashboard">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a></li>
+                    <li><a href="#assets" class="menu-link" data-section="assets">
+                        <i class="fas fa-desktop"></i> Assets Details
+                    </a></li>
+                    <li><a href="#software" class="menu-link" data-section="software">
+                        <i class="fas fa-code"></i> Software License
+                    </a></li>
+                    <li><a href="#servers" class="menu-link" data-section="servers">
+                        <i class="fas fa-server"></i> Servers
+                    </a></li>
+                    <li><a href="#switches" class="menu-link" data-section="switches">
+                        <i class="fas fa-network-wired"></i> Switches
+                    </a></li>
+                    <li><a href="#cctv" class="menu-link" data-section="cctv">
+                        <i class="fas fa-video"></i> CCTV
+                    </a></li>
+                    <li><a href="#printers" class="menu-link" data-section="printers">
+                        <i class="fas fa-print"></i> Printers
+                    </a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </header>
+
+            <!-- Dashboard Cards Section -->
+            <section id="dashboard-section" class="section active">
+                <div class="dashboard-cards">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-industry"></i> Plant</h3>
+                        <select class="dropdown-select" onchange="handlePlantSelection(this.value)">
+                            <option value="">Select Plant</option>
+                            <option value="plant1">Plant 1</option>
+                            <option value="plant2">Plant 2</option>
+                            <option value="plant3">Plant 3</option>
+                        </select>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-desktop"></i> Assets</h3>
+                        <input type="text" class="search-box" placeholder="Search assets..." onkeyup="searchAssets(this.value)">
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-building"></i> Department</h3>
+                        <select class="dropdown-select" onchange="handleDepartmentSelection(this.value)">
+                            <option value="">Select Department</option>
+                            <option value="it">IT Department</option>
+                            <option value="hr">HR Department</option>
+                            <option value="finance">Finance Department</option>
+                        </select>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-code"></i> Software License</h3>
+                        <input type="text" class="search-box" placeholder="Search software..." onkeyup="searchSoftware(this.value)">
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-server"></i> Server Details</h3>
+                        <input type="text" class="search-box" placeholder="Search servers..." onkeyup="searchServers(this.value)">
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-network-wired"></i> Switches Details</h3>
+                        <input type="text" class="search-box" placeholder="Search switches..." onkeyup="searchSwitches(this.value)">
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-video"></i> CCTV</h3>
+                        <input type="text" class="search-box" placeholder="Search CCTV..." onkeyup="searchCCTV(this.value)">
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-print"></i> Printers</h3>
+                        <input type="text" class="search-box" placeholder="Search printers..." onkeyup="searchPrinters(this.value)">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assets Section -->
+            <section id="assets-section" class="section">
+                <div class="content-panel">
+                    <h2>Assets Details Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="toggleAssetsForm()">
+                            <i class="fas fa-plus"></i> Create Assets Details
+                        </button>
+                    </div>
+                    
+                    <div id="assets-form" class="dropdown-content">
+                        <form class="data-form" onsubmit="saveAssets(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Assets Number</label>
+                                <input type="text" name="assetNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hostname</label>
+                                <input type="text" name="hostname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Serial Number</label>
+                                <input type="text" name="serialNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Device</label>
+                                <input type="text" name="device" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="assets-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search assets data..." onkeyup="filterAssetsTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="assets-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Asset No</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>Serial No</th>
+                                    <th>Device</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assets-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Software License Section -->
+            <section id="software-section" class="section">
+                <div class="content-panel">
+                    <h2>Software License Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="toggleSoftwareForm()">
+                            <i class="fas fa-plus"></i> Create Software License Details
+                        </button>
+                    </div>
+                    
+                    <div id="software-form" class="dropdown-content">
+                        <form class="data-form" onsubmit="saveSoftware(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Software Key</label>
+                                <input type="text" name="softwareKey" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hostname</label>
+                                <input type="text" name="hostname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>MS Office</label>
+                                <select name="msOffice">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>AutoCAD</label>
+                                <select name="autoCAD">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Cero</label>
+                                <select name="cero">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Device</label>
+                                <input type="text" name="device" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="software-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search software data..." onkeyup="filterSoftwareTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="software-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Software Key</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>MS Office</th>
+                                    <th>AutoCAD</th>
+                                    <th>Cero</th>
+                                    <th>Device</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="software-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Servers Section -->
+            <section id="servers-section" class="section">
+                <div class="content-panel">
+                    <h2>Server Details Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="toggleServerTypeSelection()">
+                            <i class="fas fa-plus"></i> Create Server Details
+                        </button>
+                    </div>
+                    
+                    <div id="server-type-selection" class="dropdown-content">
+                        <div class="form-actions">
+                            <button class="btn btn-warning" onclick="showSAPServerForm()">
+                                <i class="fas fa-server"></i> SAP Server
+                            </button>
+                            <button class="btn btn-warning" onclick="showNonSAPServerForm()">
+                                <i class="fas fa-server"></i> Non SAP Server
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- SAP Server Form -->
+                    <div id="sap-server-form" class="dropdown-content">
+                        <h3>SAP Server Details</h3>
+                        <form class="data-form" onsubmit="saveSAPServer(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Server Brand</label>
+                                <input type="text" name="serverBrand" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Serial Number</label>
+                                <input type="text" name="serialNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Model Number</label>
+                                <input type="text" name="modelNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Hard Disk</label>
+                                <input type="text" name="hardDisk" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Total RAM</label>
+                                <input type="text" name="totalRAM" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Total CPU</label>
+                                <input type="text" name="totalCPU" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Non-SAP Server Form -->
+                    <div id="non-sap-server-form" class="dropdown-content">
+                        <h3>Non-SAP Server Details</h3>
+                        <form class="data-form" onsubmit="saveNonSAPServer(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Server Brand</label>
+                                <input type="text" name="serverBrand" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Serial Number</label>
+                                <input type="text" name="serialNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Model Number</label>
+                                <input type="text" name="modelNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Hard Disk</label>
+                                <input type="text" name="hardDisk" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Total RAM</label>
+                                <input type="text" name="totalRAM" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Total CPU</label>
+                                <input type="text" name="totalCPU" required>
+                            </div>
+                            <div class="form-group">
+                                <label>VM</label>
+                                <input type="text" name="vm" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="servers-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search server data..." onkeyup="filterServersTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="servers-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Type</th>
+                                    <th>Server Brand</th>
+                                    <th>Serial No</th>
+                                    <th>Model No</th>
+                                    <th>Hard Disk</th>
+                                    <th>Total RAM</th>
+                                    <th>Total CPU</th>
+                                    <th>VM</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="servers-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Switches Section -->
+            <section id="switches-section" class="section">
+                <div class="content-panel">
+                    <h2>Switches Details Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="toggleSwitchesForm()">
+                            <i class="fas fa-plus"></i> Create Switches Details
+                        </button>
+                    </div>
+                    
+                    <div id="switches-form" class="dropdown-content">
+                        <form class="data-form" onsubmit="saveSwitches(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Switches ID</label>
+                                <input type="text" name="switchesId" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hostname</label>
+                                <input type="text" name="hostname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Plant</label>
+                                <select name="plant" required>
+                                    <option value="">Select Plant</option>
+                                    <option value="Plant 1">Plant 1</option>
+                                    <option value="Plant 2">Plant 2</option>
+                                    <option value="Plant 3">Plant 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Device</label>
+                                <input type="text" name="device" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="switches-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search switches data..." onkeyup="filterSwitchesTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="switches-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Switches ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>Plant</th>
+                                    <th>Device</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="switches-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CCTV Section -->
+            <section id="cctv-section" class="section">
+                <div class="content-panel">
+                    <h2>CCTV Details Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="toggleCCTVForm()">
+                            <i class="fas fa-plus"></i> Create CCTV Details
+                        </button>
+                    </div>
+                    
+                    <div id="cctv-form" class="dropdown-content">
+                        <form class="data-form" onsubmit="saveCCTV(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>CCTV ID</label>
+                                <input type="text" name="cctvId" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Security">Security</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hostname</label>
+                                <input type="text" name="hostname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Plant</label>
+                                <select name="plant" required>
+                                    <option value="">Select Plant</option>
+                                    <option value="Plant 1">Plant 1</option>
+                                    <option value="Plant 2">Plant 2</option>
+                                    <option value="Plant 3">Plant 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Device</label>
+                                <input type="text" name="device" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="cctv-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search CCTV data..." onkeyup="filterCCTVTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="cctv-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>CCTV ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>Plant</th>
+                                    <th>Device</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cctv-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Printers Section -->
+            <section id="printers-section" class="section">
+                <div class="content-panel">
+                    <h2>Printers Details Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="togglePrintersForm()">
+                            <i class="fas fa-plus"></i> Create Printer Details
+                        </button>
+                    </div>
+                    
+                    <div id="printers-form" class="dropdown-content">
+                        <form class="data-form" onsubmit="savePrinters(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Printer ID</label>
+                                <input type="text" name="printerId" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Operations">Operations</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hostname</label>
+                                <input type="text" name="hostname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Plant</label>
+                                <select name="plant" required>
+                                    <option value="">Select Plant</option>
+                                    <option value="Plant 1">Plant 1</option>
+                                    <option value="Plant 2">Plant 2</option>
+                                    <option value="Plant 3">Plant 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Device</label>
+                                <input type="text" name="device" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="printers-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search printer data..." onkeyup="filterPrintersTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="printers-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Printer ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>Plant</th>
+                                    <th>Device</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="printers-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <script src="user-script.js"></script>
+</body>
+</html>
