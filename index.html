@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACGL Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="animated-background">
+        <div class="login-container">
+            <div class="login-header">
+                <h1 class="system-title">ACGL Management System</h1>
+                <div class="logo-container">
+                    <img src="https://via.placeholder.com/150x80/4CAF50/FFFFFF?text=ACGL+LOGO" alt="ACGL Logo" class="logo">
+                </div>
+            </div>
+            
+            <div class="user-selection">
+                <h3>Select User Type</h3>
+                <div class="user-buttons">
+                    <button class="user-btn" onclick="selectUser('admin')">
+                        <i class="fas fa-user-shield"></i>
+                        Admin
+                    </button>
+                    <button class="user-btn" onclick="selectUser('deepak')">
+                        <i class="fas fa-user"></i>
+                        Deepak
+                    </button>
+                    <button class="user-btn" onclick="selectUser('shivaji')">
+                        <i class="fas fa-user"></i>
+                        Shivaji
+                    </button>
+                </div>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+            </form>
+
+            <div class="credentials-info">
+                <h4>Login Credentials:</h4>
+                <div class="credential-cards">
+                    <div class="credential-card">
+                        <h5>Admin</h5>
+                        <p>Username: admin</p>
+                        <p>Password: admin123</p>
+                    </div>
+                    <div class="credential-card">
+                        <h5>Deepak</h5>
+                        <p>Username: deepak</p>
+                        <p>Password: deepak123</p>
+                    </div>
+                    <div class="credential-card">
+                        <h5>Shivaji</h5>
+                        <p>Username: shivaji</p>
+                        <p>Password: shivaji123</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
