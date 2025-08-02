@@ -30,6 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Populate tables
     populateAllTables();
+    
+    // Initialize dashboard counts
+    setTimeout(() => {
+        updateDashboardCounts();
+    }, 500);
 });
 
 function checkAuth() {
@@ -522,46 +527,269 @@ function filterServersTable(searchTerm) {
     });
 }
 
-// Dashboard search functions
+// Dashboard search functions with real-time filtering
 function searchAssets(searchTerm) {
-    console.log('Searching assets:', searchTerm);
-    // Implement global asset search
+    if (!searchTerm) {
+        updateDashboardCounts();
+        return;
+    }
+    
+    const filteredAssets = assetsData.filter(asset => 
+        asset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        asset.assetNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        asset.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        asset.device.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    updateDashboardCard('assets', filteredAssets.length, searchTerm);
+    if (filteredAssets.length > 0) {
+        showSearchResults('Assets', filteredAssets);
+    }
 }
 
 function searchSoftware(searchTerm) {
-    console.log('Searching software:', searchTerm);
-    // Implement global software search
+    if (!searchTerm) {
+        updateDashboardCounts();
+        return;
+    }
+    
+    const filteredSoftware = softwareData.filter(software => 
+        software.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        software.softwareKey.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        software.department.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    updateDashboardCard('software', filteredSoftware.length, searchTerm);
+    if (filteredSoftware.length > 0) {
+        showSearchResults('Software', filteredSoftware);
+    }
 }
 
 function searchServers(searchTerm) {
-    console.log('Searching servers:', searchTerm);
-    // Implement global server search
+    if (!searchTerm) {
+        updateDashboardCounts();
+        return;
+    }
+    
+    const filteredServers = serversData.filter(server => 
+        server.serverBrand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        server.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        server.modelNumber.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    updateDashboardCard('servers', filteredServers.length, searchTerm);
+    if (filteredServers.length > 0) {
+        showSearchResults('Servers', filteredServers);
+    }
 }
 
 function searchSwitches(searchTerm) {
-    console.log('Searching switches:', searchTerm);
-    // Implement global switches search
+    if (!searchTerm) {
+        updateDashboardCounts();
+        return;
+    }
+    
+    const filteredSwitches = switchesData.filter(switches => 
+        switches.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        switches.switchesId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        switches.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        switches.plant.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    updateDashboardCard('switches', filteredSwitches.length, searchTerm);
+    if (filteredSwitches.length > 0) {
+        showSearchResults('Switches', filteredSwitches);
+    }
 }
 
 function searchCCTV(searchTerm) {
-    console.log('Searching CCTV:', searchTerm);
-    // Implement global CCTV search
+    if (!searchTerm) {
+        updateDashboardCounts();
+        return;
+    }
+    
+    const filteredCCTV = cctvData.filter(cctv => 
+        cctv.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cctv.cctvId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cctv.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cctv.plant.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    updateDashboardCard('cctv', filteredCCTV.length, searchTerm);
+    if (filteredCCTV.length > 0) {
+        showSearchResults('CCTV', filteredCCTV);
+    }
 }
 
 function searchPrinters(searchTerm) {
-    console.log('Searching printers:', searchTerm);
-    // Implement global printers search
+    if (!searchTerm) {
+        updateDashboardCounts();
+        return;
+    }
+    
+    const filteredPrinters = printersData.filter(printer => 
+        printer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        printer.printerId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        printer.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        printer.plant.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    updateDashboardCard('printers', filteredPrinters.length, searchTerm);
+    if (filteredPrinters.length > 0) {
+        showSearchResults('Printers', filteredPrinters);
+    }
 }
 
-// Dashboard dropdown handlers
+// Dashboard dropdown handlers with real filtering
 function handlePlantSelection(value) {
-    console.log('Selected plant:', value);
-    // Implement plant-based filtering
+    if (!value) {
+        updateDashboardCounts();
+        return;
+    }
+    
+    const plantFilteredData = {
+        switches: switchesData.filter(item => item.plant === value),
+        cctv: cctvData.filter(item => item.plant === value),
+        printers: printersData.filter(item => item.plant === value)
+    };
+    
+    updateDashboardCard('switches', plantFilteredData.switches.length, `Plant: ${value}`);
+    updateDashboardCard('cctv', plantFilteredData.cctv.length, `Plant: ${value}`);
+    updateDashboardCard('printers', plantFilteredData.printers.length, `Plant: ${value}`);
+    
+    showNotification(`Filtered by ${value}`, 'info');
 }
 
 function handleDepartmentSelection(value) {
-    console.log('Selected department:', value);
-    // Implement department-based filtering
+    if (!value) {
+        updateDashboardCounts();
+        return;
+    }
+    
+    const deptFilteredData = {
+        assets: assetsData.filter(item => item.department === value),
+        software: softwareData.filter(item => item.department === value),
+        switches: switchesData.filter(item => item.department === value),
+        cctv: cctvData.filter(item => item.department === value),
+        printers: printersData.filter(item => item.department === value)
+    };
+    
+    updateDashboardCard('assets', deptFilteredData.assets.length, `Dept: ${value}`);
+    updateDashboardCard('software', deptFilteredData.software.length, `Dept: ${value}`);
+    updateDashboardCard('switches', deptFilteredData.switches.length, `Dept: ${value}`);
+    updateDashboardCard('cctv', deptFilteredData.cctv.length, `Dept: ${value}`);
+    updateDashboardCard('printers', deptFilteredData.printers.length, `Dept: ${value}`);
+    
+    showNotification(`Filtered by ${value} Department`, 'info');
+}
+
+// Helper functions for dashboard interactivity
+function updateDashboardCounts() {
+    updateDashboardCard('assets', assetsData.length);
+    updateDashboardCard('software', softwareData.length);
+    updateDashboardCard('servers', serversData.length);
+    updateDashboardCard('switches', switchesData.length);
+    updateDashboardCard('cctv', cctvData.length);
+    updateDashboardCard('printers', printersData.length);
+}
+
+function updateDashboardCard(cardType, count, filter = '') {
+    const cards = document.querySelectorAll('.dashboard-card');
+    cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        if (title.includes(cardType)) {
+            const existingCount = card.querySelector('.count-badge');
+            if (existingCount) {
+                existingCount.remove();
+            }
+            
+            const countBadge = document.createElement('span');
+            countBadge.className = 'count-badge';
+            countBadge.textContent = filter ? `${count} (${filter})` : count;
+            countBadge.style.cssText = `
+                background: linear-gradient(45deg, #e74c3c, #f39c12);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: bold;
+                margin-left: 10px;
+                animation: pulse 2s infinite;
+            `;
+            
+            card.querySelector('h3').appendChild(countBadge);
+        }
+    });
+}
+
+function showSearchResults(type, results) {
+    const notification = document.createElement('div');
+    notification.className = 'search-notification';
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(45deg, #27ae60, #2ecc71);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        animation: slideInRight 0.5s ease;
+    `;
+    notification.innerHTML = `
+        <strong>${type} Search Results</strong><br>
+        Found ${results.length} matching item${results.length !== 1 ? 's' : ''}
+        <button onclick="this.parentElement.remove()" style="
+            background: none;
+            border: none;
+            color: white;
+            float: right;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 10px;
+        ">&times;</button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+function showNotification(message, type = 'success') {
+    const colors = {
+        success: 'linear-gradient(45deg, #27ae60, #2ecc71)',
+        info: 'linear-gradient(45deg, #3498db, #2980b9)',
+        warning: 'linear-gradient(45deg, #f39c12, #e67e22)',
+        error: 'linear-gradient(45deg, #e74c3c, #c0392b)'
+    };
+    
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${colors[type]};
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        animation: slideInRight 0.5s ease;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 3000);
 }
 
 // Additional form toggle functions

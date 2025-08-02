@@ -437,7 +437,286 @@
                 </div>
             </section>
 
-            <!-- Additional sections for switches, cctv, and printers following same pattern -->
+            <!-- Switches Section -->
+            <section id="switches-section" class="section">
+                <div class="content-panel">
+                    <h2>Switches Details Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="toggleSwitchesForm()">
+                            <i class="fas fa-plus"></i> Create Switches Details
+                        </button>
+                    </div>
+                    
+                    <div id="switches-form" class="dropdown-content">
+                        <form class="data-form" onsubmit="saveSwitches(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Switches ID</label>
+                                <input type="text" name="switchesId" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hostname</label>
+                                <input type="text" name="hostname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Plant</label>
+                                <select name="plant" required>
+                                    <option value="">Select Plant</option>
+                                    <option value="Plant 1">Plant 1</option>
+                                    <option value="Plant 2">Plant 2</option>
+                                    <option value="Plant 3">Plant 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Device</label>
+                                <input type="text" name="device" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="switches-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search switches data..." onkeyup="filterSwitchesTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="switches-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Switches ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>Plant</th>
+                                    <th>Device</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="switches-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CCTV Section -->
+            <section id="cctv-section" class="section">
+                <div class="content-panel">
+                    <h2>CCTV Details Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="toggleCCTVForm()">
+                            <i class="fas fa-plus"></i> Create CCTV Details
+                        </button>
+                    </div>
+                    
+                    <div id="cctv-form" class="dropdown-content">
+                        <form class="data-form" onsubmit="saveCCTV(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>CCTV ID</label>
+                                <input type="text" name="cctvId" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Security">Security</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hostname</label>
+                                <input type="text" name="hostname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Plant</label>
+                                <select name="plant" required>
+                                    <option value="">Select Plant</option>
+                                    <option value="Plant 1">Plant 1</option>
+                                    <option value="Plant 2">Plant 2</option>
+                                    <option value="Plant 3">Plant 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Device</label>
+                                <input type="text" name="device" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="cctv-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search CCTV data..." onkeyup="filterCCTVTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="cctv-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>CCTV ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>Plant</th>
+                                    <th>Device</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cctv-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Printers Section -->
+            <section id="printers-section" class="section">
+                <div class="content-panel">
+                    <h2>Printers Details Management</h2>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="togglePrintersForm()">
+                            <i class="fas fa-plus"></i> Create Printer Details
+                        </button>
+                    </div>
+                    
+                    <div id="printers-form" class="dropdown-content">
+                        <form class="data-form" onsubmit="savePrinters(event)">
+                            <div class="form-group">
+                                <label>Sr. Number</label>
+                                <input type="number" name="srNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Printer ID</label>
+                                <input type="text" name="printerId" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Operations">Operations</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hostname</label>
+                                <input type="text" name="hostname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Plant</label>
+                                <select name="plant" required>
+                                    <option value="">Select Plant</option>
+                                    <option value="Plant 1">Plant 1</option>
+                                    <option value="Plant 2">Plant 2</option>
+                                    <option value="Plant 3">Plant 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Device</label>
+                                <input type="text" name="device" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="success-message" id="printers-success">
+                        Data saved successfully!
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" placeholder="Search printer data..." onkeyup="filterPrintersTable(this.value)">
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="printers-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Printer ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>Plant</th>
+                                    <th>Device</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="printers-tbody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
             
         </main>
     </div>

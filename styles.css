@@ -410,20 +410,54 @@ body {
     cursor: pointer;
 }
 
-/* Content Panel */
+/* Content Panel with Dynamic Black/White Animation */
 .content-panel {
-    background: white;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    background: linear-gradient(45deg, #ffffff, #f8f9fa, #000000, #2c3e50);
+    background-size: 400% 400%;
+    animation: blackWhiteShift 8s ease infinite;
+    transition: all 0.3s ease;
+}
+
+@keyframes blackWhiteShift {
+    0% { 
+        background-position: 0% 50%;
+        color: #000;
+    }
+    25% { 
+        background-position: 100% 50%;
+        color: #333;
+    }
+    50% { 
+        background-position: 100% 100%;
+        color: #fff;
+    }
+    75% { 
+        background-position: 0% 100%;
+        color: #fff;
+    }
+    100% { 
+        background-position: 0% 50%;
+        color: #000;
+    }
+}
+
+.content-panel:hover {
+    animation-duration: 4s;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .content-panel h2 {
-    color: #2c3e50;
+    color: inherit;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 2px solid rgba(233, 236, 239, 0.5);
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Form Styles for Dashboard */
@@ -635,4 +669,58 @@ body {
 
 .dashboard.active {
     display: flex;
+}
+
+/* Additional animations */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Count badge styling */
+.count-badge {
+    animation: pulse 2s infinite;
+}
+
+/* Enhanced form styling */
+.data-form input:focus,
+.data-form select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Enhanced button interactions */
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Enhanced table styling */
+.data-table tr:nth-child(even) {
+    background: rgba(248, 249, 250, 0.5);
+}
+
+.data-table tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.8);
 }
