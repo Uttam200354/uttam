@@ -1,89 +1,162 @@
 # ACGL Management System
 
-A comprehensive web-based management system for ACGL (Asset, Computer, and General Logistics) designed to manage assets, software licenses, servers, network switches, CCTV systems, and printers across multiple plants and departments.
+A comprehensive asset management system for ACGL with role-based access control and dynamic dashboards.
 
 ## Features
 
-### 🔐 **Role-Based Authentication**
-- **Admin**: Full CRUD operations (Create, Read, Update, Delete)
-- **Deepak**: Create, Read, Update operations (no delete)
-- **Shivaji**: Create, Read, Update operations (no delete)
+- **Role-Based Access Control**: Three user types (Admin, Deepak, Shivaji) with different permissions
+- **Dynamic Login System**: Animated login page with user selection
+- **Comprehensive Asset Management**: Manage assets, software licenses, servers, switches, CCTV, and printers
+- **Plant-Specific Asset Tracking**: Track assets by plant location
+- **Search and Filter**: Search functionality across all asset types
+- **Modern UI/UX**: Beautiful, responsive design with animations
+- **MySQL Database**: Robust data storage with proper relationships
 
-### 🏭 **Multi-Plant Support**
-- Plant 1, Plant 2, Dharwad, Jejuri
-- Plant-specific asset tracking and management
-- Department-wise organization
+## System Requirements
 
-### 📊 **Comprehensive Asset Management**
-- **Assets Details**: Computer hardware, devices, and equipment
-- **Software Licenses**: MS Office, AutoCAD, Creo, and other software
-- **Server Management**: SAP and Non-SAP servers with detailed specifications
-- **Network Infrastructure**: Switches and network equipment
-- **Security Systems**: CCTV cameras and surveillance equipment
-- **Printing Solutions**: Network and local printers
+- Python 3.7+
+- MySQL 8.0+
+- Modern web browser
 
-### 🎨 **Modern UI/UX**
-- Responsive design with attractive gradient themes
-- Animated background with floating elements
-- Card-based dashboard layout
-- Real-time date/time display
-- Search functionality across all modules
-- Modal-based forms for detailed data entry
+## Installation
 
-### 🔍 **Advanced Features**
-- Auto-incrementing serial numbers
-- Real-time search and filtering
-- Data validation and error handling
-- Success/error message notifications
-- Local storage for data persistence
-- Export capabilities (planned)
+### 1. Clone or Download the Project
 
-## Technology Stack
-
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Styling**: Custom CSS with modern design patterns
-- **Icons**: Font Awesome 6.0
-- **Data Storage**: LocalStorage (Frontend), MySQL (Backend planned)
-- **Database**: MySQL with comprehensive schema
-
-## Quick Start
-
-### 1. Clone the Repository
 ```bash
 git clone <repository-url>
 cd acgl-management-system
 ```
 
-### 2. Setup Database (Optional)
+### 2. Install Python Dependencies
+
 ```bash
-# Import the MySQL schema
-mysql -u your_username -p < database/acgl_schema.sql
+pip install -r requirements.txt
 ```
 
-### 3. Launch the Application
+### 3. Set Up MySQL Database
+
+1. **Create MySQL Database**:
+   ```sql
+   CREATE DATABASE acgl_management_system;
+   USE acgl_management_system;
+   ```
+
+2. **Import Database Schema**:
+   ```bash
+   mysql -u root -p acgl_management_system < database/acgl_schema.sql
+   ```
+
+3. **Configure Database Connection**:
+   Edit `server.py` and update the `DB_CONFIG`:
+   ```python
+   DB_CONFIG = {
+       'host': 'localhost',
+       'user': 'root',
+       'password': 'your_mysql_password',  # Update this
+       'database': 'acgl_management_system',
+       'charset': 'utf8mb4',
+       'autocommit': True
+   }
+   ```
+
+## Running the Application
+
+### Option 1: Run Both Servers (Recommended)
+
+1. **Start the Flask API Server** (Terminal 1):
+   ```bash
+   python server.py
+   ```
+   This starts the API server on port 5000.
+
+2. **Start the Static File Server** (Terminal 2):
+   ```bash
+   python static_server.py
+   ```
+   This starts the static file server on port 8000.
+
+3. **Access the Application**:
+   Open your browser and go to: `http://localhost:8000`
+
+### Option 2: Run Only Static Server (Development)
+
+If you only want to test the frontend:
 ```bash
-# Option 1: Simple HTTP Server (Python)
-python -m http.server 8000
-
-# Option 2: Node.js HTTP Server
-npx http-server
-
-# Option 3: Open directly in browser
-# Simply open index.html in your web browser
+python static_server.py
 ```
+Then access: `http://localhost:8000`
 
-### 4. Access the Application
-Open your browser and navigate to:
-- `http://localhost:8000` (if using server)
-- Or open `index.html` directly in your browser
+## User Accounts
 
-## User Credentials
+The system comes with three pre-configured user accounts:
 
-| User Type | Username | Password |
-|-----------|----------|----------|
-| Admin | `admin123` | `admin@123` |
-| Deepak | `deepak456` | `deepak@456` |
-| Shivaji | `shivaji789` | `shivaji@789` |
+| User Type | Username | Password | Permissions |
+|-----------|----------|----------|-------------|
+| Admin | admin | admin123 | Full access (Create, Edit, Delete) |
+| Deepak | deepak | deepak123 | Limited access (Create, Edit only) |
+| Shivaji | shivaji | shivaji123 | Limited access (Create, Edit only) |
+
+## Dashboard Features
+
+### Admin Dashboard
+- **Full CRUD Operations**: Create, Read, Update, Delete all asset types
+- **Plant Management**: Manage assets by plant location
+- **Department Management**: Organize assets by department
+- **Comprehensive Reporting**: View all asset statistics
+
+### Deepak & Shivaji Dashboards
+- **Limited Operations**: Create and Edit only (no Delete)
+- **Same Interface**: Identical UI to admin dashboard
+- **Restricted Permissions**: Cannot delete any assets
+
+## Asset Types
+
+### 1. Assets
+- Asset Number, Name, Department, Plant
+- Hostname, Username, Serial Number, Device Type
+
+### 2. Software Licenses
+- Software Key, Name, Department
+- MS Office, AutoCAD, Cero licenses
+- Hostname, Username, Device
+
+### 3. Servers
+- **SAP Servers**: Brand, Serial Number, Model, Hard Disk, RAM, CPU
+- **Non-SAP Servers**: Same as SAP + VM information
+
+### 4. Network Switches
+- Switch ID, Name, Department, Plant
+- Hostname, Username, Device
+
+### 5. CCTV Cameras
+- Camera ID, Name, Department, Plant
+- Hostname, Username, Device
+
+### 6. Printers
+- Printer ID, Name, Department, Plant
+- Hostname, Username, Device
+
+## Plant Locations
+
+The system supports four plant locations:
+- Plant 1
+- Plant 2
+- Dharwad
+- Jejuri
+
+## API Endpoints
+
+The Flask server provides RESTful API endpoints:
+
+- `POST /api/login` - User authentication
+- `GET /api/dashboard/stats` - Dashboard statistics
+- `GET /api/plants` - Get all plants
+- `GET /api/departments` - Get all departments
+- `POST /api/assets` - Create asset
+- `GET /api/assets` - Get all assets
+- `PUT /api/assets/{id}` - Update asset
+- `DELETE /api/assets/{id}` - Delete asset
+- Similar endpoints for software licenses, servers, switches, CCTV, and printers
 
 ## File Structure
 
@@ -91,145 +164,84 @@ Open your browser and navigate to:
 acgl-management-system/
 ├── index.html                 # Login page
 ├── dashboard-admin.html       # Admin dashboard
-├── dashboard-deepak.html      # Deepak user dashboard
-├── dashboard-shivaji.html     # Shivaji user dashboard
-├── styles/
-│   ├── login.css             # Login page styles
-│   └── dashboard.css         # Dashboard styles
-├── js/
-│   ├── login.js              # Login functionality
-│   ├── dashboard-common.js   # Common dashboard functions
-│   ├── admin-dashboard.js    # Admin-specific functions
-│   ├── deepak-dashboard.js   # Deepak user functions
-│   └── shivaji-dashboard.js  # Shivaji user functions
+├── dashboard-deepak.html      # Deepak dashboard
+├── dashboard-shivaji.html     # Shivaji dashboard
+├── server.py                  # Flask API server
+├── static_server.py           # Static file server
+├── requirements.txt           # Python dependencies
+├── README.md                 # This file
 ├── assets/
-│   └── acgl-logo.png         # Company logo
-├── database/
-│   └── acgl_schema.sql       # MySQL database schema
-└── README.md                 # This file
+│   └── acgl-logo.png        # Company logo
+├── styles/
+│   ├── login.css            # Login page styles
+│   └── dashboard.css        # Dashboard styles
+├── js/
+│   ├── login.js            # Login functionality
+│   ├── admin-dashboard.js  # Admin dashboard logic
+│   ├── deepak-dashboard.js # Deepak dashboard logic
+│   └── shivaji-dashboard.js # Shivaji dashboard logic
+└── database/
+    └── acgl_schema.sql     # Database schema
 ```
 
-## Module Overview
+## Troubleshooting
 
-### 1. **Assets Management**
-- Track computer hardware and equipment
-- Department and plant assignment
-- Serial number and hostname tracking
-- Status monitoring (Active/Inactive/Maintenance)
+### Common Issues
 
-### 2. **Software License Management**
-- License key management
-- Software type tracking (MS Office, AutoCAD, Creo)
-- Expiry date monitoring
-- User assignment tracking
+1. **Port Already in Use**:
+   - Change the port numbers in the server files
+   - Kill existing processes using the ports
 
-### 3. **Server Management**
-- **SAP Servers**: SAP-specific server management
-- **Non-SAP Servers**: General purpose servers with VM support
-- Hardware specifications tracking
-- Performance monitoring capabilities
+2. **Database Connection Error**:
+   - Verify MySQL is running
+   - Check database credentials in `server.py`
+   - Ensure database exists and schema is imported
 
-### 4. **Network Infrastructure**
-- Switch configuration management
-- Port and connection tracking
-- Network topology visualization (planned)
+3. **CORS Errors**:
+   - Both servers include CORS headers
+   - Ensure both servers are running
 
-### 5. **Security Systems**
-- CCTV camera management
-- Location and coverage tracking
-- Recording status monitoring
+4. **Static Files Not Loading**:
+   - Check file paths
+   - Ensure static server is running on port 8000
 
-### 6. **Printer Management**
-- Network and local printer tracking
-- Usage statistics (planned)
-- Maintenance scheduling (planned)
+### Database Issues
 
-## Usage Guide
+If you need to reset the database:
+```sql
+DROP DATABASE acgl_management_system;
+CREATE DATABASE acgl_management_system;
+USE acgl_management_system;
+SOURCE database/acgl_schema.sql;
+```
 
-### Login Process
-1. Open the application in your browser
-2. Select user type (Admin, Deepak, or Shivaji)
-3. Enter the corresponding username and password
-4. Click "Login" to access the dashboard
+## Development
 
-### Dashboard Navigation
-- **Sidebar**: Navigate between different modules
-- **Cards**: Quick overview and actions for each module
-- **Search**: Real-time search within each module
-- **Forms**: Add/edit data with validation
+### Adding New Asset Types
 
-### Adding New Assets
-1. Click on "Assets Details" in the sidebar
-2. Select "Create Assets Details" from the dropdown
-3. Fill in the required information
-4. Click "Save" to store the data
-5. Use the search bar to find specific assets
+1. Add table to database schema
+2. Create API endpoints in `server.py`
+3. Add frontend functions in dashboard JS files
+4. Update dashboard HTML structure
 
-### Plant Management
-1. Select a plant from the Plant card dropdown
-2. Modal opens with plant-specific data entry
-3. Add asset details specific to that plant
-4. Search and manage plant-specific records
+### Customizing Styles
 
-## Database Schema
+- Edit `styles/login.css` for login page styling
+- Edit `styles/dashboard.css` for dashboard styling
+- All styles use modern CSS with gradients and animations
 
-The system uses a comprehensive MySQL database with the following main tables:
+## Security Notes
 
-- `users` - User authentication and roles
-- `plants` - Plant locations and details
-- `departments` - Department organization
-- `assets` - Asset management
-- `software_licenses` - Software license tracking
-- `sap_servers` / `non_sap_servers` - Server management
-- `network_switches` - Network infrastructure
-- `cctv_cameras` - Security systems
-- `printers` - Printing solutions
-- `plant_assets` - Plant-specific asset tracking
-- `audit_log` - Change tracking and auditing
-
-## Browser Compatibility
-
-- Chrome 80+
-- Firefox 75+
-- Safari 13+
-- Edge 80+
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## Future Enhancements
-
-- [ ] Backend API integration
-- [ ] Real-time notifications
-- [ ] Advanced reporting and analytics
-- [ ] Barcode/QR code scanning
-- [ ] Mobile application
-- [ ] Export to Excel/PDF
-- [ ] Advanced user management
-- [ ] Audit trail and logging
-- [ ] Integration with existing ERP systems
+- Change default passwords in production
+- Use HTTPS in production
+- Implement proper session management
+- Add input validation and sanitization
+- Use environment variables for sensitive data
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is developed for ACGL Management System.
 
 ## Support
 
-For support and questions, please contact:
-- Email: support@acgl.com
-- Phone: +91-XXXX-XXXX-XX
-
-## Version History
-
-- **v1.0.0** - Initial release with core functionality
-- **v1.1.0** - Added plant-specific management (planned)
-- **v1.2.0** - Backend integration (planned)
-
----
-
-**ACGL Management System** - Streamlining asset and infrastructure management across multiple locations.
+For technical support or questions, please contact the development team.
