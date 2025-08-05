@@ -15,7 +15,7 @@
                 <h2>ACGL Deepak</h2>
                 <div class="user-info">
                     <i class="fas fa-user"></i>
-                    <span>Deepak User</span>
+                    <span>Deepak Kumar</span>
                 </div>
             </div>
             
@@ -54,14 +54,16 @@
                             <div class="card-actions">
                                 <select id="plantSelect" onchange="selectPlant()">
                                     <option value="">Select Plant</option>
-                                    <option value="plant1">Plant 1</option>
-                                    <option value="plant2">Plant 2</option>
-                                    <option value="dharwad">Dharwad</option>
+                                    <option value="1">Plant 1</option>
+                                    <option value="2">Plant 2</option>
+                                    <option value="3">Dharwad</option>
+                                    <option value="4">Jejuri</option>
                                 </select>
                             </div>
                         </div>
                         <div class="card-content">
-                            <p>Select a plant to manage assets and view details</p>
+                            <div class="stat-number" id="plantsCount">4</div>
+                            <p>Total Plants</p>
                         </div>
                     </div>
                     
@@ -84,13 +86,13 @@
                             <div class="card-actions">
                                 <select>
                                     <option>IT Department</option>
-                                    <option>Operations</option>
-                                    <option>Maintenance</option>
+                                    <option>HR Department</option>
+                                    <option>Finance Department</option>
                                 </select>
                             </div>
                         </div>
                         <div class="card-content">
-                            <div class="stat-number">3</div>
+                            <div class="stat-number" id="departmentsCount">3</div>
                             <p>Active Departments</p>
                         </div>
                     </div>
@@ -103,8 +105,8 @@
                             </div>
                         </div>
                         <div class="card-content">
-                            <div class="stat-number" id="licenseCount">0</div>
-                            <p>Active Licenses</p>
+                            <div class="stat-number" id="softwareCount">0</div>
+                            <p>Total Licenses</p>
                         </div>
                     </div>
                     
@@ -116,7 +118,7 @@
                             </div>
                         </div>
                         <div class="card-content">
-                            <div class="stat-number" id="serverCount">0</div>
+                            <div class="stat-number" id="serversCount">0</div>
                             <p>Total Servers</p>
                         </div>
                     </div>
@@ -129,8 +131,8 @@
                             </div>
                         </div>
                         <div class="card-content">
-                            <div class="stat-number" id="switchCount">0</div>
-                            <p>Network Switches</p>
+                            <div class="stat-number" id="switchesCount">0</div>
+                            <p>Total Switches</p>
                         </div>
                     </div>
                     
@@ -143,7 +145,7 @@
                         </div>
                         <div class="card-content">
                             <div class="stat-number" id="cctvCount">0</div>
-                            <p>CCTV Cameras</p>
+                            <p>Total Cameras</p>
                         </div>
                     </div>
                     
@@ -155,180 +157,209 @@
                             </div>
                         </div>
                         <div class="card-content">
-                            <div class="stat-number" id="printerCount">0</div>
-                            <p>Network Printers</p>
+                            <div class="stat-number" id="printersCount">0</div>
+                            <p>Total Printers</p>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Plant Details Section -->
+                <div id="plant-details-section"></div>
             </div>
             
             <!-- Assets Section -->
             <div id="assets-section" class="content-section">
-                <div class="section-header">
-                    <h2>Assets Management</h2>
-                    <div class="section-actions">
-                        <select id="assetsDropdown" onchange="handleAssetsAction()">
-                            <option value="">Select Action</option>
-                            <option value="create">Create Assets Details</option>
-                        </select>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-laptop"></i> Assets</h3>
+                            <div class="card-actions">
+                                <input type="text" placeholder="Search assets..." class="search-input" onkeyup="searchAssets(this.value)">
+                                <button class="btn btn-primary" onclick="showCreateAssetForm()">
+                                    <i class="fas fa-plus"></i> Create Asset
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="assetsCount">0</div>
+                            <p>Total Assets</p>
+                        </div>
                     </div>
                 </div>
                 
-                <div id="assetsForm" class="form-container" style="display: none;">
-                    <h3>Create Asset Details</h3>
-                    <form id="assetForm">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Sr. Number:</label>
-                                <input type="text" id="assetSrNo" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>Asset Number:</label>
-                                <input type="text" id="assetNumber" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Name:</label>
-                                <input type="text" id="assetName" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Department:</label>
-                                <input type="text" id="assetDepartment" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Hostname:</label>
-                                <input type="text" id="assetHostname" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Username:</label>
-                                <input type="text" id="assetUsername" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Serial Number:</label>
-                                <input type="text" id="assetSerial" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Device:</label>
-                                <input type="text" id="assetDevice" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="button" class="btn btn-secondary" onclick="resetAssetForm()">Reset</button>
-                        </div>
-                    </form>
-                    
-                    <div class="search-container">
-                        <input type="text" id="assetSearch" placeholder="Search assets..." onkeyup="searchAssets()">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-table"></i> Assets List</h3>
                     </div>
-                    
-                    <div class="table-container">
-                        <table id="assetsTable">
-                            <thead>
-                                <tr>
-                                    <th>Sr. No</th>
-                                    <th>Asset Number</th>
-                                    <th>Name</th>
-                                    <th>Department</th>
-                                    <th>Hostname</th>
-                                    <th>Username</th>
-                                    <th>Serial Number</th>
-                                    <th>Device</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="assetsTableBody">
-                            </tbody>
-                        </table>
-                    </div>
+                    <div id="assetsTable"></div>
                 </div>
             </div>
             
-            <!-- Plant Details Modal (same as admin but with limited functionality) -->
-            <div id="plantModal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 id="plantModalTitle">Plant Details</h2>
-                        <span class="close" onclick="closePlantModal()">&times;</span>
-                    </div>
-                    <div class="modal-body">
-                        <form id="plantForm">
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label>Sr. Number:</label>
-                                    <input type="text" id="plantSrNo" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label>Assets Name:</label>
-                                    <input type="text" id="plantAssetName" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Name:</label>
-                                    <input type="text" id="plantName" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Department:</label>
-                                    <input type="text" id="plantDepartment" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Username:</label>
-                                    <input type="text" id="plantUsername" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Serial Number:</label>
-                                    <input type="text" id="plantSerial" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Device:</label>
-                                    <input type="text" id="plantDevice" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Host Name:</label>
-                                    <input type="text" id="plantHostName" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Last Name:</label>
-                                    <input type="text" id="plantLastName" required>
-                                </div>
+            <!-- Software License Section -->
+            <div id="software-section" class="content-section">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-key"></i> Software License</h3>
+                            <div class="card-actions">
+                                <input type="text" placeholder="Search licenses..." class="search-input" onkeyup="searchSoftwareLicenses(this.value)">
+                                <button class="btn btn-primary" onclick="showCreateSoftwareLicenseForm()">
+                                    <i class="fas fa-plus"></i> Create License
+                                </button>
                             </div>
-                            
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <button type="button" class="btn btn-secondary" onclick="resetPlantForm()">Reset</button>
-                            </div>
-                        </form>
-                        
-                        <div class="search-container">
-                            <input type="text" id="plantSearch" placeholder="Search plant data..." onkeyup="searchPlantData()">
                         </div>
-                        
-                        <div class="table-container">
-                            <table id="plantTable">
-                                <thead>
-                                    <tr>
-                                        <th>Sr. No</th>
-                                        <th>Assets Name</th>
-                                        <th>Name</th>
-                                        <th>Department</th>
-                                        <th>Username</th>
-                                        <th>Serial Number</th>
-                                        <th>Device</th>
-                                        <th>Host Name</th>
-                                        <th>Last Name</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="plantTableBody">
-                                </tbody>
-                            </table>
+                        <div class="card-content">
+                            <div class="stat-number" id="softwareCount">0</div>
+                            <p>Total Licenses</p>
                         </div>
                     </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-table"></i> Software Licenses List</h3>
+                    </div>
+                    <div id="softwareLicensesTable"></div>
+                </div>
+            </div>
+            
+            <!-- Servers Section -->
+            <div id="servers-section" class="content-section">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-server"></i> SAP Servers</h3>
+                            <div class="card-actions">
+                                <input type="text" placeholder="Search SAP servers..." class="search-input" onkeyup="searchSapServers(this.value)">
+                                <button class="btn btn-primary" onclick="showCreateSapServerForm()">
+                                    <i class="fas fa-plus"></i> Create SAP Server
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="sapServersCount">0</div>
+                            <p>SAP Servers</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-server"></i> Non-SAP Servers</h3>
+                            <div class="card-actions">
+                                <input type="text" placeholder="Search Non-SAP servers..." class="search-input" onkeyup="searchNonSapServers(this.value)">
+                                <button class="btn btn-primary" onclick="showCreateNonSapServerForm()">
+                                    <i class="fas fa-plus"></i> Create Non-SAP Server
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="nonSapServersCount">0</div>
+                            <p>Non-SAP Servers</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-table"></i> SAP Servers List</h3>
+                    </div>
+                    <div id="sapServersTable"></div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-table"></i> Non-SAP Servers List</h3>
+                    </div>
+                    <div id="nonSapServersTable"></div>
+                </div>
+            </div>
+            
+            <!-- Switches Section -->
+            <div id="switches-section" class="content-section">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-network-wired"></i> Network Switches</h3>
+                            <div class="card-actions">
+                                <input type="text" placeholder="Search switches..." class="search-input" onkeyup="searchSwitches(this.value)">
+                                <button class="btn btn-primary" onclick="showCreateSwitchForm()">
+                                    <i class="fas fa-plus"></i> Create Switch
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="switchesCount">0</div>
+                            <p>Total Switches</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-table"></i> Switches List</h3>
+                    </div>
+                    <div id="switchesTable"></div>
+                </div>
+            </div>
+            
+            <!-- CCTV Section -->
+            <div id="cctv-section" class="content-section">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-video"></i> CCTV Cameras</h3>
+                            <div class="card-actions">
+                                <input type="text" placeholder="Search CCTV..." class="search-input" onkeyup="searchCctv(this.value)">
+                                <button class="btn btn-primary" onclick="showCreateCctvForm()">
+                                    <i class="fas fa-plus"></i> Create CCTV
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="cctvCount">0</div>
+                            <p>Total Cameras</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-table"></i> CCTV Cameras List</h3>
+                    </div>
+                    <div id="cctvTable"></div>
+                </div>
+            </div>
+            
+            <!-- Printers Section -->
+            <div id="printers-section" class="content-section">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-print"></i> Printers</h3>
+                            <div class="card-actions">
+                                <input type="text" placeholder="Search printers..." class="search-input" onkeyup="searchPrinters(this.value)">
+                                <button class="btn btn-primary" onclick="showCreatePrinterForm()">
+                                    <i class="fas fa-plus"></i> Create Printer
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="printersCount">0</div>
+                            <p>Total Printers</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-table"></i> Printers List</h3>
+                    </div>
+                    <div id="printersTable"></div>
                 </div>
             </div>
         </div>
     </div>
     
-    <script src="js/dashboard-common.js"></script>
     <script src="js/deepak-dashboard.js"></script>
 </body>
 </html>

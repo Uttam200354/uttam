@@ -1,235 +1,359 @@
 # ACGL Management System
 
-A comprehensive web-based management system for ACGL (Asset, Computer, and General Logistics) designed to manage assets, software licenses, servers, network switches, CCTV systems, and printers across multiple plants and departments.
+A comprehensive web-based management system for ACGL (Asset Control and Governance Limited) with dynamic animations, modern UI, and full database integration.
 
-## Features
+## 🌟 Features
 
-### 🔐 **Role-Based Authentication**
-- **Admin**: Full CRUD operations (Create, Read, Update, Delete)
-- **Deepak**: Create, Read, Update operations (no delete)
-- **Shivaji**: Create, Read, Update operations (no delete)
+### 🔐 Authentication System
+- **Three User Types**: Admin, Deepak, Shivaji
+- **Secure Login**: Username/password authentication
+- **Session Management**: Persistent login sessions
+- **Dynamic Animations**: Floating shapes and smooth transitions
 
-### 🏭 **Multi-Plant Support**
-- Plant 1, Plant 2, Dharwad, Jejuri
-- Plant-specific asset tracking and management
-- Department-wise organization
+### 📊 Dashboard Features
+- **Real-time Statistics**: Live counts for all assets and equipment
+- **Interactive Cards**: Hover effects and dynamic content
+- **Search Functionality**: Real-time search across all data
+- **Responsive Design**: Works on all devices
 
-### 📊 **Comprehensive Asset Management**
-- **Assets Details**: Computer hardware, devices, and equipment
-- **Software Licenses**: MS Office, AutoCAD, Creo, and other software
-- **Server Management**: SAP and Non-SAP servers with detailed specifications
-- **Network Infrastructure**: Switches and network equipment
-- **Security Systems**: CCTV cameras and surveillance equipment
-- **Printing Solutions**: Network and local printers
+### 🏭 Plant Management
+- **Four Plants**: Plant 1, Plant 2, Dharwad, Jejuri
+- **Plant-specific Assets**: Detailed asset tracking per plant
+- **Auto-incrementing SR Numbers**: Automatic serial number generation
+- **Search & Filter**: Advanced search capabilities
 
-### 🎨 **Modern UI/UX**
-- Responsive design with attractive gradient themes
-- Animated background with floating elements
-- Card-based dashboard layout
-- Real-time date/time display
-- Search functionality across all modules
-- Modal-based forms for detailed data entry
+### 💻 Asset Management
+- **Complete Asset Tracking**: Name, department, hostname, username, serial number, device type
+- **CRUD Operations**: Create, Read, Update, Delete functionality
+- **Search & Filter**: Real-time search across all fields
+- **Database Integration**: Full MySQL backend
 
-### 🔍 **Advanced Features**
-- Auto-incrementing serial numbers
-- Real-time search and filtering
-- Data validation and error handling
-- Success/error message notifications
-- Local storage for data persistence
-- Export capabilities (planned)
+### 🔑 Software License Management
+- **License Tracking**: Software keys, names, departments
+- **Software Types**: MS Office, AutoCAD, Creo support
+- **Device Association**: Link licenses to specific devices
+- **Expiry Tracking**: License expiration monitoring
 
-## Technology Stack
+### 🖥️ Server Management
+- **SAP Servers**: Dedicated SAP server tracking
+- **Non-SAP Servers**: General server management with VM support
+- **Hardware Details**: Brand, model, RAM, CPU, storage
+- **Plant Assignment**: Server location tracking
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Styling**: Custom CSS with modern design patterns
-- **Icons**: Font Awesome 6.0
-- **Data Storage**: LocalStorage (Frontend), MySQL (Backend planned)
-- **Database**: MySQL with comprehensive schema
+### 🌐 Network Infrastructure
+- **Network Switches**: Switch ID, brand, model, port count
+- **CCTV Cameras**: Camera management with resolution and type
+- **Printers**: Printer tracking with type and connection details
+- **Location Tracking**: Plant and department assignment
 
-## Quick Start
+### 🎨 Modern UI/UX
+- **Dynamic Animations**: Floating shapes, smooth transitions
+- **Gradient Backgrounds**: Beautiful color schemes
+- **Responsive Design**: Mobile-friendly interface
+- **Interactive Elements**: Hover effects and feedback
 
-### 1. Clone the Repository
-```bash
-git clone <repository-url>
-cd acgl-management-system
-```
+## 🚀 Quick Start
 
-### 2. Setup Database (Optional)
-```bash
-# Import the MySQL schema
-mysql -u your_username -p < database/acgl_schema.sql
-```
+### Prerequisites
+- Python 3.7+
+- MySQL 8.0+
+- Modern web browser
 
-### 3. Launch the Application
-```bash
-# Option 1: Simple HTTP Server (Python)
-python -m http.server 8000
+### Installation
 
-# Option 2: Node.js HTTP Server
-npx http-server
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd acgl-management-system
+   ```
 
-# Option 3: Open directly in browser
-# Simply open index.html in your web browser
-```
+2. **Install Python dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### 4. Access the Application
-Open your browser and navigate to:
-- `http://localhost:8000` (if using server)
-- Or open `index.html` directly in your browser
+3. **Set up MySQL database**
+   ```bash
+   mysql -u root -p < database/acgl_schema.sql
+   ```
 
-## User Credentials
+4. **Configure database connection**
+   Edit `api_server.py` and update the `DB_CONFIG`:
+   ```python
+   DB_CONFIG = {
+       'host': 'localhost',
+       'user': 'root',
+       'password': 'your_mysql_password',
+       'database': 'acgl_management_system',
+       'charset': 'utf8mb4',
+       'autocommit': True
+   }
+   ```
 
-| User Type | Username | Password |
-|-----------|----------|----------|
-| Admin | `admin123` | `admin@123` |
-| Deepak | `deepak456` | `deepak@456` |
-| Shivaji | `shivaji789` | `shivaji@789` |
+5. **Start the API server**
+   ```bash
+   python api_server.py
+   ```
 
-## File Structure
+6. **Start the web server**
+   ```bash
+   python server.py
+   ```
 
-```
-acgl-management-system/
-├── index.html                 # Login page
-├── dashboard-admin.html       # Admin dashboard
-├── dashboard-deepak.html      # Deepak user dashboard
-├── dashboard-shivaji.html     # Shivaji user dashboard
-├── styles/
-│   ├── login.css             # Login page styles
-│   └── dashboard.css         # Dashboard styles
-├── js/
-│   ├── login.js              # Login functionality
-│   ├── dashboard-common.js   # Common dashboard functions
-│   ├── admin-dashboard.js    # Admin-specific functions
-│   ├── deepak-dashboard.js   # Deepak user functions
-│   └── shivaji-dashboard.js  # Shivaji user functions
-├── assets/
-│   └── acgl-logo.png         # Company logo
-├── database/
-│   └── acgl_schema.sql       # MySQL database schema
-└── README.md                 # This file
-```
+7. **Access the application**
+   Open your browser and navigate to: `http://localhost:8000`
 
-## Module Overview
+## 👥 User Credentials
 
-### 1. **Assets Management**
-- Track computer hardware and equipment
-- Department and plant assignment
-- Serial number and hostname tracking
-- Status monitoring (Active/Inactive/Maintenance)
+### Admin User
+- **Username**: `admin123`
+- **Password**: `admin@123`
+- **Permissions**: Full access to all features including delete operations
 
-### 2. **Software License Management**
-- License key management
-- Software type tracking (MS Office, AutoCAD, Creo)
-- Expiry date monitoring
-- User assignment tracking
+### Deepak User
+- **Username**: `deepak456`
+- **Password**: `deepak@456`
+- **Permissions**: Full access except delete operations
 
-### 3. **Server Management**
-- **SAP Servers**: SAP-specific server management
-- **Non-SAP Servers**: General purpose servers with VM support
-- Hardware specifications tracking
-- Performance monitoring capabilities
+### Shivaji User
+- **Username**: `shivaji789`
+- **Password**: `shivaji@789`
+- **Permissions**: Full access except delete operations
 
-### 4. **Network Infrastructure**
-- Switch configuration management
-- Port and connection tracking
-- Network topology visualization (planned)
+## 📋 Database Schema
 
-### 5. **Security Systems**
-- CCTV camera management
-- Location and coverage tracking
-- Recording status monitoring
+### Core Tables
+- **users**: User authentication and profiles
+- **plants**: Plant locations and details
+- **departments**: Department information
+- **assets**: General asset tracking
+- **software_licenses**: Software license management
+- **sap_servers**: SAP server details
+- **non_sap_servers**: Non-SAP server details
+- **network_switches**: Network switch inventory
+- **cctv_cameras**: CCTV camera management
+- **printers**: Printer inventory
+- **plant_assets**: Plant-specific asset details
 
-### 6. **Printer Management**
-- Network and local printer tracking
-- Usage statistics (planned)
-- Maintenance scheduling (planned)
+### Features
+- **Auto-incrementing SR Numbers**: Automatic serial number generation
+- **Foreign Key Relationships**: Proper data integrity
+- **Audit Logging**: Track all changes
+- **Indexes**: Optimized query performance
+- **Views**: Pre-built reports and summaries
 
-## Usage Guide
+## 🎯 Usage Guide
 
 ### Login Process
-1. Open the application in your browser
-2. Select user type (Admin, Deepak, or Shivaji)
-3. Enter the corresponding username and password
-4. Click "Login" to access the dashboard
+1. Select user type (Admin, Deepak, or Shivaji)
+2. Enter username and password
+3. Click "Login" to access dashboard
 
 ### Dashboard Navigation
-- **Sidebar**: Navigate between different modules
-- **Cards**: Quick overview and actions for each module
-- **Search**: Real-time search within each module
-- **Forms**: Add/edit data with validation
-
-### Adding New Assets
-1. Click on "Assets Details" in the sidebar
-2. Select "Create Assets Details" from the dropdown
-3. Fill in the required information
-4. Click "Save" to store the data
-5. Use the search bar to find specific assets
+- **Dashboard**: Overview with statistics
+- **Assets Details**: Manage all assets
+- **Software License**: Manage software licenses
+- **Servers**: Manage SAP and Non-SAP servers
+- **Switches**: Network switch management
+- **CCTV**: Camera system management
+- **Printers**: Printer inventory
 
 ### Plant Management
-1. Select a plant from the Plant card dropdown
-2. Modal opens with plant-specific data entry
-3. Add asset details specific to that plant
-4. Search and manage plant-specific records
+1. Select a plant from the dropdown
+2. View plant-specific assets
+3. Add new assets with auto-incrementing SR numbers
+4. Search and filter plant assets
 
-## Database Schema
+### Asset Management
+1. Click "Create Asset Details"
+2. Fill in all required fields
+3. Save the asset
+4. View in the database table
+5. Edit or delete as needed
 
-The system uses a comprehensive MySQL database with the following main tables:
+### Search Functionality
+- Real-time search across all fields
+- Filter by plant, department, or asset type
+- Search by name, serial number, or hostname
 
-- `users` - User authentication and roles
-- `plants` - Plant locations and details
-- `departments` - Department organization
-- `assets` - Asset management
-- `software_licenses` - Software license tracking
-- `sap_servers` / `non_sap_servers` - Server management
-- `network_switches` - Network infrastructure
-- `cctv_cameras` - Security systems
-- `printers` - Printing solutions
-- `plant_assets` - Plant-specific asset tracking
-- `audit_log` - Change tracking and auditing
+## 🔧 API Endpoints
 
-## Browser Compatibility
+### Authentication
+- `POST /api/login` - User authentication
+- `POST /api/logout` - User logout
 
-- Chrome 80+
-- Firefox 75+
-- Safari 13+
-- Edge 80+
+### Dashboard
+- `GET /api/dashboard/stats` - Dashboard statistics
 
-## Contributing
+### Assets
+- `GET /api/assets` - Get all assets
+- `POST /api/assets` - Create new asset
+- `PUT /api/assets/{id}` - Update asset
+- `DELETE /api/assets/{id}` - Delete asset
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Software Licenses
+- `GET /api/software-licenses` - Get all licenses
+- `POST /api/software-licenses` - Create new license
 
-## Future Enhancements
+### Servers
+- `GET /api/servers/sap` - Get SAP servers
+- `GET /api/servers/non-sap` - Get Non-SAP servers
 
-- [ ] Backend API integration
-- [ ] Real-time notifications
-- [ ] Advanced reporting and analytics
-- [ ] Barcode/QR code scanning
-- [ ] Mobile application
-- [ ] Export to Excel/PDF
-- [ ] Advanced user management
-- [ ] Audit trail and logging
-- [ ] Integration with existing ERP systems
+### Infrastructure
+- `GET /api/switches` - Get network switches
+- `GET /api/cctv` - Get CCTV cameras
+- `GET /api/printers` - Get printers
 
-## License
+### Plant Assets
+- `GET /api/plant-assets/{plant_id}` - Get plant assets
+- `POST /api/plant-assets/{plant_id}` - Create plant asset
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 🎨 UI Features
 
-## Support
+### Login Page
+- **Dynamic Background**: Animated floating shapes
+- **Gradient Colors**: Beautiful purple-blue gradient
+- **User Selection**: Three user type buttons
+- **Form Validation**: Real-time input validation
+- **Loading Animations**: Smooth transitions
 
-For support and questions, please contact:
-- Email: support@acgl.com
-- Phone: +91-XXXX-XXXX-XX
+### Dashboard
+- **Sidebar Navigation**: Collapsible menu
+- **Statistics Cards**: Live data with animations
+- **Search Bars**: Real-time search functionality
+- **Data Tables**: Sortable and filterable tables
+- **Action Buttons**: Edit, delete, save operations
 
-## Version History
+### Color Scheme
+- **Primary**: Purple gradient (#667eea to #764ba2)
+- **Secondary**: Blue accent (#3498db)
+- **Success**: Green (#27ae60)
+- **Danger**: Red (#e74c3c)
+- **Warning**: Orange (#f39c12)
 
-- **v1.0.0** - Initial release with core functionality
-- **v1.1.0** - Added plant-specific management (planned)
-- **v1.2.0** - Backend integration (planned)
+## 📱 Responsive Design
+
+### Desktop (1024px+)
+- Full sidebar navigation
+- Multi-column layouts
+- Hover effects and animations
+
+### Tablet (768px - 1024px)
+- Collapsible sidebar
+- Adjusted grid layouts
+- Touch-friendly buttons
+
+### Mobile (480px - 768px)
+- Mobile-first design
+- Stacked layouts
+- Swipe gestures
+
+## 🔒 Security Features
+
+### Authentication
+- Session-based authentication
+- Secure password handling
+- User role permissions
+
+### Data Protection
+- SQL injection prevention
+- XSS protection
+- CSRF protection
+
+### Access Control
+- Role-based permissions
+- User-specific dashboards
+- Secure API endpoints
+
+## 🚀 Performance
+
+### Frontend
+- Optimized CSS animations
+- Efficient JavaScript
+- Lazy loading
+- Caching strategies
+
+### Backend
+- Database indexing
+- Query optimization
+- Connection pooling
+- Response caching
+
+## 🛠️ Development
+
+### File Structure
+```
+acgl-management-system/
+├── index.html              # Login page
+├── dashboard-admin.html    # Admin dashboard
+├── dashboard-deepak.html   # Deepak dashboard
+├── dashboard-shivaji.html  # Shivaji dashboard
+├── api_server.py          # Flask API server
+├── server.py              # Static file server
+├── requirements.txt       # Python dependencies
+├── database/
+│   └── acgl_schema.sql   # Database schema
+├── styles/
+│   ├── login.css         # Login page styles
+│   └── dashboard.css     # Dashboard styles
+├── js/
+│   ├── login.js          # Login functionality
+│   ├── admin-dashboard.js # Admin dashboard
+│   ├── deepak-dashboard.js # Deepak dashboard
+│   └── shivaji-dashboard.js # Shivaji dashboard
+└── assets/
+    └── acgl-logo.png     # Company logo
+```
+
+### Technologies Used
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Backend**: Python Flask
+- **Database**: MySQL 8.0
+- **Styling**: Custom CSS with gradients and animations
+- **Icons**: Font Awesome 6.0
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **Database Connection Error**
+   - Check MySQL service is running
+   - Verify database credentials in `api_server.py`
+   - Ensure database exists: `acgl_management_system`
+
+2. **API Server Not Starting**
+   - Check if port 5000 is available
+   - Install required dependencies: `pip install -r requirements.txt`
+   - Verify Python version: 3.7+
+
+3. **Web Server Not Starting**
+   - Check if port 8000 is available
+   - Ensure all files are in the correct directory
+   - Verify `index.html` exists
+
+4. **Login Issues**
+   - Verify user credentials
+   - Check browser console for errors
+   - Ensure API server is running
+
+### Debug Mode
+Enable debug mode in `api_server.py`:
+```python
+app.run(debug=True, host='0.0.0.0', port=5000)
+```
+
+## 📞 Support
+
+For technical support or questions:
+- Check the troubleshooting section
+- Review the API documentation
+- Verify database connectivity
+- Test with different browsers
+
+## 📄 License
+
+This project is proprietary software for ACGL (Asset Control and Governance Limited).
 
 ---
 
-**ACGL Management System** - Streamlining asset and infrastructure management across multiple locations.
+**ACGL Management System** - Comprehensive asset and infrastructure management solution with modern UI and full database integration.
