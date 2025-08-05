@@ -1839,3 +1839,222 @@ function searchPrinters() {
         row.style.display = text.includes(searchTerm) ? '' : 'none';
     });
 }
+
+// Edit and Delete Functions for Assets
+function editAsset(id) {
+    // TODO: Implement edit asset functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+function deleteAsset(id) {
+    if (confirm('Are you sure you want to delete this asset?')) {
+        fetch(`${API_BASE_URL}/assets/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showNotification('Asset deleted successfully!', 'success');
+                loadAssets();
+            } else {
+                showNotification('Error deleting asset: ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error deleting asset', 'error');
+        });
+    }
+}
+
+// Edit and Delete Functions for Software Licenses
+function editSoftwareLicense(id) {
+    // TODO: Implement edit software license functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+function deleteSoftwareLicense(id) {
+    if (confirm('Are you sure you want to delete this software license?')) {
+        fetch(`${API_BASE_URL}/software-licenses/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showNotification('Software license deleted successfully!', 'success');
+                loadSoftwareLicenses();
+            } else {
+                showNotification('Error deleting software license: ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error deleting software license', 'error');
+        });
+    }
+}
+
+// Edit and Delete Functions for SAP Servers
+function editSapServer(id) {
+    // TODO: Implement edit SAP server functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+function deleteSapServer(id) {
+    if (confirm('Are you sure you want to delete this SAP server?')) {
+        fetch(`${API_BASE_URL}/servers/sap/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showNotification('SAP server deleted successfully!', 'success');
+                loadSapServers();
+            } else {
+                showNotification('Error deleting SAP server: ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error deleting SAP server', 'error');
+        });
+    }
+}
+
+// Edit and Delete Functions for Non-SAP Servers
+function editNonSapServer(id) {
+    // TODO: Implement edit non-SAP server functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+function deleteNonSapServer(id) {
+    if (confirm('Are you sure you want to delete this non-SAP server?')) {
+        fetch(`${API_BASE_URL}/servers/non-sap/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showNotification('Non-SAP server deleted successfully!', 'success');
+                loadNonSapServers();
+            } else {
+                showNotification('Error deleting non-SAP server: ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error deleting non-SAP server', 'error');
+        });
+    }
+}
+
+// Edit and Delete Functions for Switches
+function editSwitch(id) {
+    // TODO: Implement edit switch functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+function deleteSwitch(id) {
+    if (confirm('Are you sure you want to delete this switch?')) {
+        fetch(`${API_BASE_URL}/switches/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showNotification('Switch deleted successfully!', 'success');
+                loadSwitches();
+            } else {
+                showNotification('Error deleting switch: ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error deleting switch', 'error');
+        });
+    }
+}
+
+// Edit and Delete Functions for CCTV
+function editCctv(id) {
+    // TODO: Implement edit CCTV functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+function deleteCctv(id) {
+    if (confirm('Are you sure you want to delete this CCTV camera?')) {
+        fetch(`${API_BASE_URL}/cctv/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showNotification('CCTV camera deleted successfully!', 'success');
+                loadCctv();
+            } else {
+                showNotification('Error deleting CCTV camera: ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error deleting CCTV camera', 'error');
+        });
+    }
+}
+
+// Edit and Delete Functions for Printers
+function editPrinter(id) {
+    // TODO: Implement edit printer functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+function deletePrinter(id) {
+    if (confirm('Are you sure you want to delete this printer?')) {
+        fetch(`${API_BASE_URL}/printers/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showNotification('Printer deleted successfully!', 'success');
+                loadPrinters();
+            } else {
+                showNotification('Error deleting printer: ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error deleting printer', 'error');
+        });
+    }
+}
+
+// Edit and Delete Functions for Plant Assets
+function editPlantAsset(id) {
+    // TODO: Implement edit plant asset functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+function deletePlantAsset(id) {
+    if (confirm('Are you sure you want to delete this plant asset?')) {
+        fetch(`${API_BASE_URL}/plant-assets/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showNotification('Plant asset deleted successfully!', 'success');
+                const currentPlant = document.getElementById('plantSelect').value;
+                if (currentPlant) {
+                    loadPlantAssets(currentPlant);
+                }
+            } else {
+                showNotification('Error deleting plant asset: ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error deleting plant asset', 'error');
+        });
+    }
+}

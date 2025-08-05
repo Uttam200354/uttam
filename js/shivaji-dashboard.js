@@ -1069,3 +1069,51 @@ async function loadDepartments() {
         console.error('Error loading departments:', error);
     }
 }
+
+// Edit Functions for Assets (No Delete for Shivaji)
+function editAsset(id) {
+    // TODO: Implement edit asset functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+// Edit Functions for Software Licenses (No Delete for Shivaji)
+function editSoftwareLicense(id) {
+    // TODO: Implement edit software license functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+// Edit Functions for SAP Servers (No Delete for Shivaji)
+function editSapServer(id) {
+    // TODO: Implement edit SAP server functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+// Edit Functions for Non-SAP Servers (No Delete for Shivaji)
+function editNonSapServer(id) {
+    // TODO: Implement edit non-SAP server functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+// Edit Functions for Switches (No Delete for Shivaji)
+function editSwitch(id) {
+    // TODO: Implement edit switch functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+// Edit Functions for CCTV (No Delete for Shivaji)
+function editCctv(id) {
+    // TODO: Implement edit CCTV functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+// Edit Functions for Printers (No Delete for Shivaji)
+function editPrinter(id) {
+    // TODO: Implement edit printer functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
+
+// Edit Functions for Plant Assets (No Delete for Shivaji)
+function editPlantAsset(id) {
+    // TODO: Implement edit plant asset functionality
+    showNotification('Edit functionality will be implemented soon', 'info');
+}
