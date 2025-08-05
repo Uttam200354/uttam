@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACGL Management System - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard active">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">ACGL System</h2>
+                <div class="sidebar-user">
+                    Welcome, <span id="currentUserName"></span>
+                </div>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active" data-section="overview">
+                        📊 Dashboard Overview
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="assets">
+                        💻 Assets Details
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="software">
+                        🔑 Software License
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="servers">
+                        🖥️ Servers
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="switches">
+                        🔌 Switches
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="cctv">
+                        📹 CCTV
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="printers">
+                        🖨️ Printers
+                    </a>
+                </li>
+                <li class="sidebar-item" style="margin-top: 30px;">
+                    <a href="#" class="sidebar-link" id="logoutBtn">
+                        🚪 Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <!-- Overview Section -->
+            <div id="overview-section" class="content-section active">
+                <div class="content-header">
+                    <h1 class="page-title">Dashboard Overview</h1>
+                    <p class="page-subtitle">Manage your IT assets and resources</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <!-- Plant Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Plant</h3>
+                            <span class="card-icon">🏭</span>
+                        </div>
+                        <div class="dropdown-container">
+                            <button class="dropdown-btn" onclick="togglePlantDropdown()">
+                                Select Plant
+                            </button>
+                            <div id="plantDropdown" class="dropdown-content" style="display: none;">
+                                <a href="#" onclick="openPlantDetails('plant1')">Plant 1</a>
+                                <a href="#" onclick="openPlantDetails('plant2')">Plant 2</a>
+                                <a href="#" onclick="openPlantDetails('dharwad')">Dharwad</a>
+                                <a href="#" onclick="openPlantDetails('jejuri')">Jejuri</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Assets Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Assets</h3>
+                            <span class="card-icon">💻</span>
+                        </div>
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="Search assets..." onkeyup="searchAssets(this.value)">
+                        </div>
+                        <div class="card-stats">
+                            <p>Total Assets: <span id="totalAssets">0</span></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Department Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Department</h3>
+                            <span class="card-icon">🏢</span>
+                        </div>
+                        <div class="dropdown-container">
+                            <button class="dropdown-btn" onclick="toggleDepartmentDropdown()">
+                                Select Department
+                            </button>
+                            <div id="departmentDropdown" class="dropdown-content" style="display: none;">
+                                <a href="#" onclick="filterByDepartment('IT')">IT Department</a>
+                                <a href="#" onclick="filterByDepartment('HR')">HR Department</a>
+                                <a href="#" onclick="filterByDepartment('Finance')">Finance Department</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Software License Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Software License</h3>
+                            <span class="card-icon">🔑</span>
+                        </div>
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="Search licenses..." onkeyup="searchLicenses(this.value)">
+                        </div>
+                        <div class="card-stats">
+                            <p>Active Licenses: <span id="totalLicenses">0</span></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Server Details Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Server Details</h3>
+                            <span class="card-icon">🖥️</span>
+                        </div>
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="Search servers..." onkeyup="searchServers(this.value)">
+                        </div>
+                        <div class="card-stats">
+                            <p>Total Servers: <span id="totalServers">0</span></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Switches Details Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Switches Details</h3>
+                            <span class="card-icon">🔌</span>
+                        </div>
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="Search switches..." onkeyup="searchSwitches(this.value)">
+                        </div>
+                        <div class="card-stats">
+                            <p>Total Switches: <span id="totalSwitches">0</span></p>
+                        </div>
+                    </div>
+                    
+                    <!-- CCTV Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">CCTV</h3>
+                            <span class="card-icon">📹</span>
+                        </div>
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="Search CCTV..." onkeyup="searchCCTV(this.value)">
+                        </div>
+                        <div class="card-stats">
+                            <p>Total CCTV: <span id="totalCCTV">0</span></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Printers Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Printers</h3>
+                            <span class="card-icon">🖨️</span>
+                        </div>
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="Search printers..." onkeyup="searchPrinters(this.value)">
+                        </div>
+                        <div class="card-stats">
+                            <p>Total Printers: <span id="totalPrinters">0</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Assets Section -->
+            <div id="assets-section" class="content-section">
+                <div class="content-header">
+                    <h1 class="page-title">Assets Details</h1>
+                    <p class="page-subtitle">Manage IT assets and equipment</p>
+                </div>
+                
+                <div class="dropdown-container">
+                    <button class="dropdown-btn" onclick="toggleAssetsForm()">
+                        Create Assets Details
+                    </button>
+                </div>
+                
+                <div id="assetsForm" class="form-container">
+                    <h3>Add New Asset</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="assetSrNo">Sr. Number</label>
+                            <input type="text" id="assetSrNo" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetNumber">Asset Number</label>
+                            <input type="text" id="assetNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetName">Name</label>
+                            <input type="text" id="assetName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetDepartment">Department</label>
+                            <input type="text" id="assetDepartment" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetHostname">Hostname</label>
+                            <input type="text" id="assetHostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetUsername">Username</label>
+                            <input type="text" id="assetUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetSerial">Serial Number</label>
+                            <input type="text" id="assetSerial" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetDevice">Device</label>
+                            <input type="text" id="assetDevice" required>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search in asset data..." onkeyup="searchInAssets(this.value)">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="saveAsset()">Save</button>
+                        <button type="button" class="btn btn-warning" onclick="editAsset()" id="editAssetBtn" style="display: none;">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteAsset()" id="deleteAssetBtn" style="display: none;">Delete</button>
+                    </div>
+                    
+                    <div id="assetSuccessMessage" class="success-message">
+                        Data saved successfully!
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <h3>Assets Database</h3>
+                    <table class="data-table" id="assetsTable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Asset Number</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>Serial Number</th>
+                                <th>Device</th>
+                                <th class="admin-only">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Software Section -->
+            <div id="software-section" class="content-section">
+                <div class="content-header">
+                    <h1 class="page-title">Software License Details</h1>
+                    <p class="page-subtitle">Manage software licenses and keys</p>
+                </div>
+                
+                <div class="dropdown-container">
+                    <button class="dropdown-btn" onclick="toggleSoftwareForm()">
+                        Create Software License Details
+                    </button>
+                </div>
+                
+                <div id="softwareForm" class="form-container">
+                    <h3>Add New Software License</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="softwareSrNo">Sr. Number</label>
+                            <input type="text" id="softwareSrNo" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareKey">Software Key</label>
+                            <input type="text" id="softwareKey" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareName">Name</label>
+                            <input type="text" id="softwareName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareDepartment">Department</label>
+                            <input type="text" id="softwareDepartment" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareHostname">Hostname</label>
+                            <input type="text" id="softwareHostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareUsername">Username</label>
+                            <input type="text" id="softwareUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="msOffice">MS Office</label>
+                            <input type="text" id="msOffice">
+                        </div>
+                        <div class="form-group">
+                            <label for="autoCAD">AutoCAD</label>
+                            <input type="text" id="autoCAD">
+                        </div>
+                        <div class="form-group">
+                            <label for="cero">Cero</label>
+                            <input type="text" id="cero">
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareDevice">Device</label>
+                            <input type="text" id="softwareDevice" required>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search in software data..." onkeyup="searchInSoftware(this.value)">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="saveSoftware()">Save</button>
+                        <button type="button" class="btn btn-warning" onclick="editSoftware()" id="editSoftwareBtn" style="display: none;">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteSoftware()" id="deleteSoftwareBtn" style="display: none;">Delete</button>
+                    </div>
+                    
+                    <div id="softwareSuccessMessage" class="success-message">
+                        Data saved successfully!
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <h3>Software License Database</h3>
+                    <table class="data-table" id="softwareTable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Software Key</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>MS Office</th>
+                                <th>AutoCAD</th>
+                                <th>Cero</th>
+                                <th>Device</th>
+                                <th class="admin-only">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Servers Section -->
+            <div id="servers-section" class="content-section">
+                <div class="content-header">
+                    <h1 class="page-title">Server Details</h1>
+                    <p class="page-subtitle">Manage SAP and Non-SAP servers</p>
+                </div>
+                
+                <div class="dropdown-container">
+                    <button class="dropdown-btn" onclick="toggleServerTypeDropdown()">
+                        Select Server Type
+                    </button>
+                    <div id="serverTypeDropdown" class="dropdown-content" style="display: none;">
+                        <a href="#" onclick="showServerForm('sap')">SAP Server</a>
+                        <a href="#" onclick="showServerForm('nonsap')">Non SAP Server</a>
+                    </div>
+                </div>
+                
+                <!-- SAP Server Form -->
+                <div id="sapServerForm" class="form-container">
+                    <h3>Add SAP Server</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="sapSrNo">Sr. Number</label>
+                            <input type="text" id="sapSrNo" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="sapBrand">Server Brand</label>
+                            <input type="text" id="sapBrand" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sapSerial">Serial Number</label>
+                            <input type="text" id="sapSerial" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sapModel">Model Number</label>
+                            <input type="text" id="sapModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sapHDD">Hard Disk</label>
+                            <input type="text" id="sapHDD" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sapRAM">Total RAM</label>
+                            <input type="text" id="sapRAM" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sapCPU">Total CPU</label>
+                            <input type="text" id="sapCPU" required>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search in SAP server data..." onkeyup="searchInSAPServers(this.value)">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="saveSAPServer()">Save</button>
+                        <button type="button" class="btn btn-warning" onclick="editSAPServer()" id="editSAPBtn" style="display: none;">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteSAPServer()" id="deleteSAPBtn" style="display: none;">Delete</button>
+                    </div>
+                    
+                    <div id="sapSuccessMessage" class="success-message">
+                        Data saved successfully!
+                    </div>
+                </div>
+                
+                <!-- Non-SAP Server Form -->
+                <div id="nonsapServerForm" class="form-container">
+                    <h3>Add Non-SAP Server</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nonsapSrNo">Sr. Number</label>
+                            <input type="text" id="nonsapSrNo" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="nonsapBrand">Server Brand</label>
+                            <input type="text" id="nonsapBrand" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nonsapSerial">Serial Number</label>
+                            <input type="text" id="nonsapSerial" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nonsapModel">Model Number</label>
+                            <input type="text" id="nonsapModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nonsapHDD">Hard Disk</label>
+                            <input type="text" id="nonsapHDD" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nonsapRAM">Total RAM</label>
+                            <input type="text" id="nonsapRAM" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nonsapCPU">Total CPU</label>
+                            <input type="text" id="nonsapCPU" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nonsapVM">VM</label>
+                            <input type="text" id="nonsapVM" required>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search in Non-SAP server data..." onkeyup="searchInNonSAPServers(this.value)">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="saveNonSAPServer()">Save</button>
+                        <button type="button" class="btn btn-warning" onclick="editNonSAPServer()" id="editNonSAPBtn" style="display: none;">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteNonSAPServer()" id="deleteNonSAPBtn" style="display: none;">Delete</button>
+                    </div>
+                    
+                    <div id="nonsapSuccessMessage" class="success-message">
+                        Data saved successfully!
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <h3>Server Database</h3>
+                    <table class="data-table" id="serversTable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Type</th>
+                                <th>Server Brand</th>
+                                <th>Serial Number</th>
+                                <th>Model Number</th>
+                                <th>Hard Disk</th>
+                                <th>Total RAM</th>
+                                <th>Total CPU</th>
+                                <th>VM</th>
+                                <th class="admin-only">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Switches Section -->
+            <div id="switches-section" class="content-section">
+                <div class="content-header">
+                    <h1 class="page-title">Switches Details</h1>
+                    <p class="page-subtitle">Manage network switches</p>
+                </div>
+                
+                <div class="dropdown-container">
+                    <button class="dropdown-btn" onclick="toggleSwitchesForm()">
+                        Create Switches Details
+                    </button>
+                </div>
+                
+                <div id="switchesForm" class="form-container">
+                    <h3>Add New Switch</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="switchSrNo">Sr. Number</label>
+                            <input type="text" id="switchSrNo" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="switchId">Switch ID</label>
+                            <input type="text" id="switchId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="switchName">Name</label>
+                            <input type="text" id="switchName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="switchDepartment">Department</label>
+                            <input type="text" id="switchDepartment" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="switchHostname">Hostname</label>
+                            <input type="text" id="switchHostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="switchUsername">Username</label>
+                            <input type="text" id="switchUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="switchPlant">Plant</label>
+                            <input type="text" id="switchPlant" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="switchDevice">Device</label>
+                            <input type="text" id="switchDevice" required>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search in switches data..." onkeyup="searchInSwitches(this.value)">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="saveSwitch()">Save</button>
+                        <button type="button" class="btn btn-warning" onclick="editSwitch()" id="editSwitchBtn" style="display: none;">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteSwitch()" id="deleteSwitchBtn" style="display: none;">Delete</button>
+                    </div>
+                    
+                    <div id="switchSuccessMessage" class="success-message">
+                        Data saved successfully!
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <h3>Switches Database</h3>
+                    <table class="data-table" id="switchesTable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Switch ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>Plant</th>
+                                <th>Device</th>
+                                <th class="admin-only">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- CCTV Section -->
+            <div id="cctv-section" class="content-section">
+                <div class="content-header">
+                    <h1 class="page-title">CCTV Details</h1>
+                    <p class="page-subtitle">Manage CCTV cameras and surveillance</p>
+                </div>
+                
+                <div class="dropdown-container">
+                    <button class="dropdown-btn" onclick="toggleCCTVForm()">
+                        Create CCTV Details
+                    </button>
+                </div>
+                
+                <div id="cctvForm" class="form-container">
+                    <h3>Add New CCTV</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="cctvSrNo">Sr. Number</label>
+                            <input type="text" id="cctvSrNo" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="cctvId">CCTV ID</label>
+                            <input type="text" id="cctvId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cctvName">Name</label>
+                            <input type="text" id="cctvName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cctvDepartment">Department</label>
+                            <input type="text" id="cctvDepartment" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cctvHostname">Hostname</label>
+                            <input type="text" id="cctvHostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cctvUsername">Username</label>
+                            <input type="text" id="cctvUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cctvPlant">Plant</label>
+                            <input type="text" id="cctvPlant" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cctvDevice">Device</label>
+                            <input type="text" id="cctvDevice" required>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search in CCTV data..." onkeyup="searchInCCTV(this.value)">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="saveCCTV()">Save</button>
+                        <button type="button" class="btn btn-warning" onclick="editCCTV()" id="editCCTVBtn" style="display: none;">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteCCTV()" id="deleteCCTVBtn" style="display: none;">Delete</button>
+                    </div>
+                    
+                    <div id="cctvSuccessMessage" class="success-message">
+                        Data saved successfully!
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <h3>CCTV Database</h3>
+                    <table class="data-table" id="cctvTable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>CCTV ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>Plant</th>
+                                <th>Device</th>
+                                <th class="admin-only">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Printers Section -->
+            <div id="printers-section" class="content-section">
+                <div class="content-header">
+                    <h1 class="page-title">Printer Details</h1>
+                    <p class="page-subtitle">Manage printers and printing devices</p>
+                </div>
+                
+                <div class="dropdown-container">
+                    <button class="dropdown-btn" onclick="togglePrintersForm()">
+                        Create Printer Details
+                    </button>
+                </div>
+                
+                <div id="printersForm" class="form-container">
+                    <h3>Add New Printer</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="printerSrNo">Sr. Number</label>
+                            <input type="text" id="printerSrNo" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="printerId">Printer ID</label>
+                            <input type="text" id="printerId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="printerName">Name</label>
+                            <input type="text" id="printerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="printerDepartment">Department</label>
+                            <input type="text" id="printerDepartment" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="printerHostname">Hostname</label>
+                            <input type="text" id="printerHostname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="printerUsername">Username</label>
+                            <input type="text" id="printerUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="printerPlant">Plant</label>
+                            <input type="text" id="printerPlant" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="printerDevice">Device</label>
+                            <input type="text" id="printerDevice" required>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search in printer data..." onkeyup="searchInPrinters(this.value)">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="savePrinter()">Save</button>
+                        <button type="button" class="btn btn-warning" onclick="editPrinter()" id="editPrinterBtn" style="display: none;">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deletePrinter()" id="deletePrinterBtn" style="display: none;">Delete</button>
+                    </div>
+                    
+                    <div id="printerSuccessMessage" class="success-message">
+                        Data saved successfully!
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <h3>Printers Database</h3>
+                    <table class="data-table" id="printersTable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Printer ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Hostname</th>
+                                <th>Username</th>
+                                <th>Plant</th>
+                                <th>Device</th>
+                                <th class="admin-only">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script src="dashboard.js"></script>
+    <script src="database.js"></script>
+</body>
+</html>
