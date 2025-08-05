@@ -86,23 +86,38 @@ function showSection(sectionName) {
             loadDashboardStats();
             break;
         case 'assets':
-            loadAssets();
+            showAssetsList();
             break;
-        case 'software':
-            loadSoftwareLicenses();
+        case 'software-license':
+            showSoftwareLicensesList();
             break;
         case 'servers':
-            loadSapServers();
-            loadNonSapServers();
+            // Show server options
+            const content = document.querySelector('.main-content');
+            content.innerHTML = `
+                <div class="content-header">
+                    <h2>Server Details</h2>
+                </div>
+                <div class="server-options">
+                    <div class="option-card" onclick="showSapServersList()">
+                        <h3>SAP Server</h3>
+                        <p>Manage SAP server configurations</p>
+                    </div>
+                    <div class="option-card" onclick="showNonSapServersList()">
+                        <h3>Non-SAP Server</h3>
+                        <p>Manage Non-SAP server configurations</p>
+                    </div>
+                </div>
+            `;
             break;
         case 'switches':
-            loadSwitches();
+            showSwitchesList();
             break;
         case 'cctv':
-            loadCctv();
+            showCctvList();
             break;
         case 'printers':
-            loadPrinters();
+            showPrintersList();
             break;
     }
 }
@@ -1054,42 +1069,773 @@ function logout() {
 }
 
 // Load additional data
-async function loadPlants() {
+async function loadPlants(selectId = null) {
     try {
         const response = await fetch(`${API_BASE_URL}/plants`);
         const data = await response.json();
         
         if (data.success) {
-            // Update plant dropdowns
-            const plantSelects = document.querySelectorAll('select[id*="plant"], select[id*="Plant"]');
-            plantSelects.forEach(select => {
-                select.innerHTML = '<option value="">Select Plant</option>';
-                data.plants.forEach(plant => {
-                    select.innerHTML += `<option value="${plant.id}">${plant.plant_name}</option>`;
+            if (selectId) {
+                // Populate specific select element
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.innerHTML = '<option value="">Select Plant</option>';
+                    data.plants.forEach(plant => {
+                        select.innerHTML += `<option value="${plant.plant_name}">${plant.plant_name}</option>`;
+                    });
+                }
+            } else {
+                // Update all plant dropdowns
+                const plantSelects = document.querySelectorAll('select[id*="plant"], select[id*="Plant"]');
+                plantSelects.forEach(select => {
+                    select.innerHTML = '<option value="">Select Plant</option>';
+                    data.plants.forEach(plant => {
+                        select.innerHTML += `<option value="${plant.id}">${plant.plant_name}</option>`;
+                    });
                 });
-            });
+            }
         }
     } catch (error) {
         console.error('Error loading plants:', error);
     }
 }
 
-async function loadDepartments() {
+async function loadDepartments(selectId = null) {
     try {
         const response = await fetch(`${API_BASE_URL}/departments`);
         const data = await response.json();
         
         if (data.success) {
-            // Update department dropdowns
-            const deptSelects = document.querySelectorAll('select[id*="department"], select[id*="Department"]');
-            deptSelects.forEach(select => {
-                select.innerHTML = '<option value="">Select Department</option>';
-                data.departments.forEach(dept => {
-                    select.innerHTML += `<option value="${dept.id}">${dept.department_name}</option>`;
+            if (selectId) {
+                // Populate specific select element
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.innerHTML = '<option value="">Select Department</option>';
+                    data.departments.forEach(dept => {
+                        select.innerHTML += `<option value="${dept.department_name}">${dept.department_name}</option>`;
+                    });
+                }
+            } else {
+                // Update all department dropdowns
+                const deptSelects = document.querySelectorAll('select[id*="department"], select[id*="Department"]');
+                deptSelects.forEach(select => {
+                    select.innerHTML = '<option value="">Select Department</option>';
+                    data.departments.forEach(dept => {
+                        select.innerHTML += `<option value="${dept.id}">${dept.department_name}</option>`;
+                    });
                 });
-            });
+            }
         }
     } catch (error) {
         console.error('Error loading departments:', error);
     }
+}
+
+// Software License Functions
+function showCreateSoftwareLicenseForm() {
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Create Software License Details</h2>
+            <button class="btn btn-secondary" onclick="showSoftwareLicensesList()">Back to List</button>
+        </div>
+        <div class="form-container">
+            <form id="softwareLicenseForm" onsubmit="handleSoftwareLicenseSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="softwareKey">Software Key</label>
+                        <input type="text" id="softwareKey" name="softwareKey" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="softwareName">Name</label>
+                        <input type="text" id="softwareName" name="name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="softwareDepartment">Department</label>
+                        <select id="softwareDepartment" name="department" required>
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="softwareHostname">Hostname</label>
+                        <input type="text" id="softwareHostname" name="hostname" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="softwareUsername">Username</label>
+                        <input type="text" id="softwareUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="msOffice">MS Office</label>
+                        <input type="text" id="msOffice" name="ms_office">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="autoCAD">AutoCAD</label>
+                        <input type="text" id="autoCAD" name="autocad">
+                    </div>
+                    <div class="form-group">
+                        <label for="cero">Cero</label>
+                        <input type="text" id="cero" name="cero">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="softwareDevice">Device</label>
+                        <input type="text" id="softwareDevice" name="device" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="showSoftwareLicensesList()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+    loadDepartments('softwareDepartment');
+}
+
+function handleSoftwareLicenseSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    createSoftwareLicense(data);
+}
+
+function createSoftwareLicense(data) {
+    fetch(`${API_BASE_URL}/software-licenses`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('Software license created successfully!', 'success');
+            showSoftwareLicensesList();
+        } else {
+            showNotification('Error creating software license: ' + result.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error creating software license', 'error');
+    });
+}
+
+// SAP Server Functions
+function showCreateSapServerForm() {
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Create SAP Server Details</h2>
+            <button class="btn btn-secondary" onclick="showSapServersList()">Back to List</button>
+        </div>
+        <div class="form-container">
+            <form id="sapServerForm" onsubmit="handleSapServerSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sapServerBrand">Server Brand</label>
+                        <input type="text" id="sapServerBrand" name="server_brand" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sapSerialNumber">Serial Number</label>
+                        <input type="text" id="sapSerialNumber" name="serial_number" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sapModelNumber">Model Number</label>
+                        <input type="text" id="sapModelNumber" name="model_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sapHardDisk">Hard Disk</label>
+                        <input type="text" id="sapHardDisk" name="hard_disk" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sapTotalRAM">Total RAM</label>
+                        <input type="text" id="sapTotalRAM" name="total_ram" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sapTotalCPU">Total CPU</label>
+                        <input type="text" id="sapTotalCPU" name="total_cpu" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="showSapServersList()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+}
+
+function handleSapServerSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    createSapServer(data);
+}
+
+function createSapServer(data) {
+    fetch(`${API_BASE_URL}/servers/sap`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('SAP server created successfully!', 'success');
+            showSapServersList();
+        } else {
+            showNotification('Error creating SAP server: ' + result.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error creating SAP server', 'error');
+    });
+}
+
+// Non-SAP Server Functions
+function showCreateNonSapServerForm() {
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Create Non-SAP Server Details</h2>
+            <button class="btn btn-secondary" onclick="showNonSapServersList()">Back to List</button>
+        </div>
+        <div class="form-container">
+            <form id="nonSapServerForm" onsubmit="handleNonSapServerSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nonSapServerBrand">Server Brand</label>
+                        <input type="text" id="nonSapServerBrand" name="server_brand" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nonSapSerialNumber">Serial Number</label>
+                        <input type="text" id="nonSapSerialNumber" name="serial_number" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nonSapModelNumber">Model Number</label>
+                        <input type="text" id="nonSapModelNumber" name="model_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nonSapHardDisk">Hard Disk</label>
+                        <input type="text" id="nonSapHardDisk" name="hard_disk" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nonSapTotalRAM">Total RAM</label>
+                        <input type="text" id="nonSapTotalRAM" name="total_ram" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nonSapTotalCPU">Total CPU</label>
+                        <input type="text" id="nonSapTotalCPU" name="total_cpu" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nonSapVM">VM</label>
+                        <input type="text" id="nonSapVM" name="vm" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="showNonSapServersList()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+}
+
+function handleNonSapServerSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    createNonSapServer(data);
+}
+
+function createNonSapServer(data) {
+    fetch(`${API_BASE_URL}/servers/non-sap`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('Non-SAP server created successfully!', 'success');
+            showNonSapServersList();
+        } else {
+            showNotification('Error creating Non-SAP server: ' + result.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error creating Non-SAP server', 'error');
+    });
+}
+
+// Switches Functions
+function showCreateSwitchForm() {
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Create Switch Details</h2>
+            <button class="btn btn-secondary" onclick="showSwitchesList()">Back to List</button>
+        </div>
+        <div class="form-container">
+            <form id="switchForm" onsubmit="handleSwitchSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="switchId">Switch ID</label>
+                        <input type="text" id="switchId" name="switch_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="switchName">Name</label>
+                        <input type="text" id="switchName" name="name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="switchDepartment">Department</label>
+                        <select id="switchDepartment" name="department" required>
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="switchHostname">Hostname</label>
+                        <input type="text" id="switchHostname" name="hostname" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="switchUsername">Username</label>
+                        <input type="text" id="switchUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="switchPlant">Plant</label>
+                        <select id="switchPlant" name="plant" required>
+                            <option value="">Select Plant</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="switchDevice">Device</label>
+                        <input type="text" id="switchDevice" name="device" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="showSwitchesList()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+    loadDepartments('switchDepartment');
+    loadPlants('switchPlant');
+}
+
+function handleSwitchSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    createSwitch(data);
+}
+
+function createSwitch(data) {
+    fetch(`${API_BASE_URL}/switches`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('Switch created successfully!', 'success');
+            showSwitchesList();
+        } else {
+            showNotification('Error creating switch: ' + result.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error creating switch', 'error');
+    });
+}
+
+// CCTV Functions
+function showCreateCctvForm() {
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Create CCTV Details</h2>
+            <button class="btn btn-secondary" onclick="showCctvList()">Back to List</button>
+        </div>
+        <div class="form-container">
+            <form id="cctvForm" onsubmit="handleCctvSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cctvId">Camera ID</label>
+                        <input type="text" id="cctvId" name="camera_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cctvName">Name</label>
+                        <input type="text" id="cctvName" name="name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cctvDepartment">Department</label>
+                        <select id="cctvDepartment" name="department" required>
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cctvHostname">Hostname</label>
+                        <input type="text" id="cctvHostname" name="hostname" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cctvUsername">Username</label>
+                        <input type="text" id="cctvUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cctvPlant">Plant</label>
+                        <select id="cctvPlant" name="plant" required>
+                            <option value="">Select Plant</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cctvDevice">Device</label>
+                        <input type="text" id="cctvDevice" name="device" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="showCctvList()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+    loadDepartments('cctvDepartment');
+    loadPlants('cctvPlant');
+}
+
+function handleCctvSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    createCctv(data);
+}
+
+function createCctv(data) {
+    fetch(`${API_BASE_URL}/cctv`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('CCTV camera created successfully!', 'success');
+            showCctvList();
+        } else {
+            showNotification('Error creating CCTV camera: ' + result.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error creating CCTV camera', 'error');
+    });
+}
+
+// Printer Functions
+function showCreatePrinterForm() {
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Create Printer Details</h2>
+            <button class="btn btn-secondary" onclick="showPrintersList()">Back to List</button>
+        </div>
+        <div class="form-container">
+            <form id="printerForm" onsubmit="handlePrinterSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="printerId">Printer ID</label>
+                        <input type="text" id="printerId" name="printer_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="printerName">Name</label>
+                        <input type="text" id="printerName" name="name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="printerDepartment">Department</label>
+                        <select id="printerDepartment" name="department" required>
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="printerHostname">Hostname</label>
+                        <input type="text" id="printerHostname" name="hostname" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="printerUsername">Username</label>
+                        <input type="text" id="printerUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="printerPlant">Plant</label>
+                        <select id="printerPlant" name="plant" required>
+                            <option value="">Select Plant</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="printerDevice">Device</label>
+                        <input type="text" id="printerDevice" name="device" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="showPrintersList()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+    loadDepartments('printerDepartment');
+    loadPlants('printerPlant');
+}
+
+function handlePrinterSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    createPrinter(data);
+}
+
+function createPrinter(data) {
+    fetch(`${API_BASE_URL}/printers`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('Printer created successfully!', 'success');
+            showPrintersList();
+        } else {
+            showNotification('Error creating printer: ' + result.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error creating printer', 'error');
+    });
+}
+
+// Software License List Functions
+function showSoftwareLicensesList() {
+    loadSoftwareLicenses();
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Software License Details</h2>
+            <button class="btn btn-primary" onclick="showCreateSoftwareLicenseForm()">Create New</button>
+        </div>
+        <div class="search-container">
+            <input type="text" id="softwareLicenseSearch" placeholder="Search software licenses..." onkeyup="searchSoftwareLicenses()">
+        </div>
+        <div id="softwareLicensesData"></div>
+    `;
+}
+
+function searchSoftwareLicenses() {
+    const searchTerm = document.getElementById('softwareLicenseSearch').value.toLowerCase();
+    const table = document.querySelector('#softwareLicensesData table');
+    if (!table) return;
+    
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// SAP Server List Functions
+function showSapServersList() {
+    loadSapServers();
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>SAP Server Details</h2>
+            <button class="btn btn-primary" onclick="showCreateSapServerForm()">Create New</button>
+        </div>
+        <div class="search-container">
+            <input type="text" id="sapServerSearch" placeholder="Search SAP servers..." onkeyup="searchSapServers()">
+        </div>
+        <div id="sapServersData"></div>
+    `;
+}
+
+function searchSapServers() {
+    const searchTerm = document.getElementById('sapServerSearch').value.toLowerCase();
+    const table = document.querySelector('#sapServersData table');
+    if (!table) return;
+    
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// Non-SAP Server List Functions
+function showNonSapServersList() {
+    loadNonSapServers();
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Non-SAP Server Details</h2>
+            <button class="btn btn-primary" onclick="showCreateNonSapServerForm()">Create New</button>
+        </div>
+        <div class="search-container">
+            <input type="text" id="nonSapServerSearch" placeholder="Search Non-SAP servers..." onkeyup="searchNonSapServers()">
+        </div>
+        <div id="nonSapServersData"></div>
+    `;
+}
+
+function searchNonSapServers() {
+    const searchTerm = document.getElementById('nonSapServerSearch').value.toLowerCase();
+    const table = document.querySelector('#nonSapServersData table');
+    if (!table) return;
+    
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// Switches List Functions
+function showSwitchesList() {
+    loadSwitches();
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Switch Details</h2>
+            <button class="btn btn-primary" onclick="showCreateSwitchForm()">Create New</button>
+        </div>
+        <div class="search-container">
+            <input type="text" id="switchSearch" placeholder="Search switches..." onkeyup="searchSwitches()">
+        </div>
+        <div id="switchesData"></div>
+    `;
+}
+
+function searchSwitches() {
+    const searchTerm = document.getElementById('switchSearch').value.toLowerCase();
+    const table = document.querySelector('#switchesData table');
+    if (!table) return;
+    
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// CCTV List Functions
+function showCctvList() {
+    loadCctv();
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>CCTV Details</h2>
+            <button class="btn btn-primary" onclick="showCreateCctvForm()">Create New</button>
+        </div>
+        <div class="search-container">
+            <input type="text" id="cctvSearch" placeholder="Search CCTV cameras..." onkeyup="searchCctv()">
+        </div>
+        <div id="cctvData"></div>
+    `;
+}
+
+function searchCctv() {
+    const searchTerm = document.getElementById('cctvSearch').value.toLowerCase();
+    const table = document.querySelector('#cctvData table');
+    if (!table) return;
+    
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// Printers List Functions
+function showPrintersList() {
+    loadPrinters();
+    const content = document.querySelector('.main-content');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Printer Details</h2>
+            <button class="btn btn-primary" onclick="showCreatePrinterForm()">Create New</button>
+        </div>
+        <div class="search-container">
+            <input type="text" id="printerSearch" placeholder="Search printers..." onkeyup="searchPrinters()">
+        </div>
+        <div id="printersData"></div>
+    `;
+}
+
+function searchPrinters() {
+    const searchTerm = document.getElementById('printerSearch').value.toLowerCase();
+    const table = document.querySelector('#printersData table');
+    if (!table) return;
+    
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
 }

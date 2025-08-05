@@ -33,20 +33,30 @@ def main():
     """Start the static file server"""
     try:
         with socketserver.TCPServer(("", PORT), CustomHTTPRequestHandler) as httpd:
-            print(f"Static file server running at http://localhost:{PORT}")
-            print(f"Serving files from: {DIRECTORY}")
+            print("=" * 60)
+            print("🏭 ACGL Management System - Static File Server")
+            print("=" * 60)
+            print(f"🌐 Server running at: http://localhost:{PORT}")
+            print(f"📁 Serving files from: {DIRECTORY}")
+            print("🔐 Available Users:")
+            print("   👨‍💼 Admin:   username: admin123   | password: admin@123")
+            print("   👨‍💻 Deepak:  username: deepak456  | password: deepak@456")
+            print("   👨‍🔧 Shivaji: username: shivaji789 | password: shivaji@789")
+            print("=" * 60)
             print("Press Ctrl+C to stop the server")
+            print("=" * 60)
             httpd.serve_forever()
     except KeyboardInterrupt:
-        print("\nServer stopped by user")
+        print("\n🛑 Server stopped by user")
+        print("👋 Thank you for using ACGL Management System!")
     except OSError as e:
         if e.errno == 48:  # Address already in use
-            print(f"Error: Port {PORT} is already in use.")
-            print("Please stop any other server running on this port or change the PORT variable.")
+            print(f"❌ Error: Port {PORT} is already in use")
+            print(f"💡 Try a different port or stop the process using port {PORT}")
         else:
-            print(f"Error starting server: {e}")
+            print(f"❌ Error starting server: {e}")
     except Exception as e:
-        print(f"Unexpected error: {e}")
+        print(f"❌ Unexpected error: {e}")
 
 if __name__ == "__main__":
     main()
