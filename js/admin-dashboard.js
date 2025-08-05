@@ -1686,6 +1686,8 @@ function showSoftwareLicensesList() {
         </div>
         <div id="softwareLicensesData"></div>
     `;
+    // Render the data table
+    displaySoftwareLicenses(softwareLicensesData);
 }
 
 function searchSoftwareLicenses() {
@@ -1714,6 +1716,8 @@ function showSapServersList() {
         </div>
         <div id="sapServersData"></div>
     `;
+    // Render the data table
+    displaySapServers(sapServersData);
 }
 
 function searchSapServers() {
@@ -1742,6 +1746,8 @@ function showNonSapServersList() {
         </div>
         <div id="nonSapServersData"></div>
     `;
+    // Render the data table
+    displayNonSapServers(nonSapServersData);
 }
 
 function searchNonSapServers() {
@@ -1770,6 +1776,8 @@ function showSwitchesList() {
         </div>
         <div id="switchesData"></div>
     `;
+    // Render the data table
+    displaySwitches(switchesData);
 }
 
 function searchSwitches() {
@@ -1798,6 +1806,8 @@ function showCctvList() {
         </div>
         <div id="cctvData"></div>
     `;
+    // Render the data table
+    displayCctv(cctvData);
 }
 
 function searchCctv() {
@@ -1826,6 +1836,8 @@ function showPrintersList() {
         </div>
         <div id="printersData"></div>
     `;
+    // Render the data table
+    displayPrinters(printersData);
 }
 
 function searchPrinters() {
